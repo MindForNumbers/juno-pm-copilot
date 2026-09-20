@@ -1,110 +1,2709 @@
 {
-  "description": "Juno PM — starter Langflow agent for the AI Product Management Certification. Import into Langflow and add your own OpenAI API key. Single-agent ReAct pattern that triages a P0 thread into a top-3 risk list with citations.",
-  "name": "Juno PM — P0 Triage Agent (Starter)",
-  "version": "0.1.0",
   "data": {
-    "nodes": [
+    "edges": [
       {
-        "id": "input-thread",
-        "type": "ChatInput",
-        "position": { "x": 0, "y": 0 },
+        "animated": false,
+        "className": "",
         "data": {
-          "label": "Slack P0 thread",
-          "description": "Paste the raw Slack thread for testing. In production this is fed by a webhook on #escalations.",
-          "input_value": ""
-        }
+          "sourceHandle": {
+            "dataType": "ChatInput",
+            "id": "ChatInput-xCpx8",
+            "name": "message",
+            "output_types": [
+              "Message"
+            ]
+          },
+          "targetHandle": {
+            "fieldName": "request",
+            "id": "Prompt Template-gxOlN",
+            "inputTypes": [
+              "Message"
+            ],
+            "type": "str"
+          }
+        },
+        "id": "xy-edge__ChatInput-xCpx8{œdataTypeœ:œChatInputœ,œidœ:œChatInput-xCpx8œ,œnameœ:œmessageœ,œoutput_typesœ:[œMessageœ]}-Prompt Template-gxOlN{œfieldNameœ:œrequestœ,œidœ:œPrompt Template-gxOlNœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
+        "selected": false,
+        "source": "ChatInput-xCpx8",
+        "sourceHandle": "{œdataTypeœ:œChatInputœ,œidœ:œChatInput-xCpx8œ,œnameœ:œmessageœ,œoutput_typesœ:[œMessageœ]}",
+        "target": "Prompt Template-gxOlN",
+        "targetHandle": "{œfieldNameœ:œrequestœ,œidœ:œPrompt Template-gxOlNœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}"
       },
       {
-        "id": "system-prompt",
-        "type": "Prompt",
-        "position": { "x": 320, "y": 0 },
+        "animated": false,
+        "className": "",
         "data": {
-          "label": "Juno system prompt",
-          "template": "You are Juno PM, an AI Associate PM embedded in RocketShip's Slack/Notion/Jira. You operate as a risk watchdog. For the attached P0 thread:\n\n1. Identify the top 3 risks.\n2. For each risk, cite the message index that supports it.\n3. Score each risk 1-5 for severity. If confidence < 70%, mark NEEDS PM REVIEW.\n4. Never invent customer names, ARR, or contracts.\n5. Output a markdown table: Rank | Risk | Confidence | Source idx | Suggested action.\n\nThread:\n{thread}"
-        }
+          "sourceHandle": {
+            "dataType": "Prompt Template",
+            "id": "Prompt Template-gxOlN",
+            "name": "prompt",
+            "output_types": [
+              "Message"
+            ]
+          },
+          "targetHandle": {
+            "fieldName": "input_value",
+            "id": "ext:google:GoogleGenerativeAIComponent@official-ZjAPz",
+            "inputTypes": [
+              "Message"
+            ],
+            "type": "str"
+          }
+        },
+        "id": "xy-edge__Prompt Template-gxOlN{œdataTypeœ:œPrompt Templateœ,œidœ:œPrompt Template-gxOlNœ,œnameœ:œpromptœ,œoutput_typesœ:[œMessageœ]}-ext:google:GoogleGenerativeAIComponent@official-ZjAPz{œfieldNameœ:œinput_valueœ,œidœ:œext:google:GoogleGenerativeAIComponent@official-ZjAPzœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
+        "selected": false,
+        "source": "Prompt Template-gxOlN",
+        "sourceHandle": "{œdataTypeœ:œPrompt Templateœ,œidœ:œPrompt Template-gxOlNœ,œnameœ:œpromptœ,œoutput_typesœ:[œMessageœ]}",
+        "target": "ext:google:GoogleGenerativeAIComponent@official-ZjAPz",
+        "targetHandle": "{œfieldNameœ:œinput_valueœ,œidœ:œext:google:GoogleGenerativeAIComponent@official-ZjAPzœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}"
       },
       {
-        "id": "retrieval",
-        "type": "Retriever",
-        "position": { "x": 320, "y": 220 },
+        "animated": false,
+        "className": "",
         "data": {
-          "label": "RAG retriever (placeholder)",
-          "description": "Replace with a real vector store. Default: pgvector + text-embedding-3-large. Top-k = 10.",
-          "k": 10
-        }
+          "sourceHandle": {
+            "dataType": "ext:chroma:ChromaVectorStoreComponent@official",
+            "id": "ext:chroma:ChromaVectorStoreComponent@official-iZ5Gq",
+            "name": "search_results",
+            "output_types": [
+              "JSON"
+            ]
+          },
+          "targetHandle": {
+            "fieldName": "input_data",
+            "id": "ParserComponent-u9g0v",
+            "inputTypes": [
+              "DataFrame",
+              "Table",
+              "Data",
+              "JSON"
+            ],
+            "type": "other"
+          }
+        },
+        "id": "xy-edge__ext:chroma:ChromaVectorStoreComponent@official-iZ5Gq{œdataTypeœ:œext:chroma:ChromaVectorStoreComponent@officialœ,œidœ:œext:chroma:ChromaVectorStoreComponent@official-iZ5Gqœ,œnameœ:œsearch_resultsœ,œoutput_typesœ:[œJSONœ]}-ParserComponent-u9g0v{œfieldNameœ:œinput_dataœ,œidœ:œParserComponent-u9g0vœ,œinputTypesœ:[œDataFrameœ,œTableœ,œDataœ,œJSONœ],œtypeœ:œotherœ}",
+        "selected": false,
+        "source": "ext:chroma:ChromaVectorStoreComponent@official-iZ5Gq",
+        "sourceHandle": "{œdataTypeœ:œext:chroma:ChromaVectorStoreComponent@officialœ,œidœ:œext:chroma:ChromaVectorStoreComponent@official-iZ5Gqœ,œnameœ:œsearch_resultsœ,œoutput_typesœ:[œJSONœ]}",
+        "target": "ParserComponent-u9g0v",
+        "targetHandle": "{œfieldNameœ:œinput_dataœ,œidœ:œParserComponent-u9g0vœ,œinputTypesœ:[œDataFrameœ,œTableœ,œDataœ,œJSONœ],œtypeœ:œotherœ}"
       },
       {
-        "id": "llm",
-        "type": "OpenAI",
-        "position": { "x": 640, "y": 110 },
+        "animated": false,
+        "className": "",
         "data": {
-          "label": "GPT-4-class model",
-          "model": "gpt-4o",
-          "temperature": 0.2,
-          "max_tokens": 800,
-          "_note": "Add your OPENAI_API_KEY as a Langflow environment variable."
-        }
+          "sourceHandle": {
+            "dataType": "ext:google:GoogleGenerativeAIComponent@official",
+            "id": "ext:google:GoogleGenerativeAIComponent@official-ZjAPz",
+            "name": "text_output",
+            "output_types": [
+              "Message"
+            ]
+          },
+          "targetHandle": {
+            "fieldName": "input_text",
+            "id": "ConditionalRouter-9lEXC",
+            "inputTypes": [
+              "Message"
+            ],
+            "type": "str"
+          }
+        },
+        "id": "xy-edge__ext:google:GoogleGenerativeAIComponent@official-ZjAPz{œdataTypeœ:œext:google:GoogleGenerativeAIComponent@officialœ,œidœ:œext:google:GoogleGenerativeAIComponent@official-ZjAPzœ,œnameœ:œtext_outputœ,œoutput_typesœ:[œMessageœ]}-ConditionalRouter-9lEXC{œfieldNameœ:œinput_textœ,œidœ:œConditionalRouter-9lEXCœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
+        "selected": false,
+        "source": "ext:google:GoogleGenerativeAIComponent@official-ZjAPz",
+        "sourceHandle": "{œdataTypeœ:œext:google:GoogleGenerativeAIComponent@officialœ,œidœ:œext:google:GoogleGenerativeAIComponent@official-ZjAPzœ,œnameœ:œtext_outputœ,œoutput_typesœ:[œMessageœ]}",
+        "target": "ConditionalRouter-9lEXC",
+        "targetHandle": "{œfieldNameœ:œinput_textœ,œidœ:œConditionalRouter-9lEXCœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}"
       },
       {
-        "id": "guardrail",
-        "type": "Conditional",
-        "position": { "x": 960, "y": 110 },
+        "animated": false,
+        "className": "",
         "data": {
-          "label": "Confidence guardrail",
-          "condition": "all(risks).confidence >= 0.7",
-          "if_true": "auto-post",
-          "if_false": "hand-off"
-        }
+          "sourceHandle": {
+            "dataType": "ext:huggingface:HuggingFaceInferenceAPIEmbeddingsComponent@official",
+            "id": "ext:huggingface:HuggingFaceInferenceAPIEmbeddingsComponent@official-prAb6",
+            "name": "embeddings",
+            "output_types": [
+              "Embeddings"
+            ]
+          },
+          "targetHandle": {
+            "fieldName": "embedding",
+            "id": "ext:chroma:ChromaVectorStoreComponent@official-iZ5Gq",
+            "inputTypes": [
+              "Embeddings"
+            ],
+            "type": "other"
+          }
+        },
+        "id": "xy-edge__ext:huggingface:HuggingFaceInferenceAPIEmbeddingsComponent@official-prAb6{œdataTypeœ:œext:huggingface:HuggingFaceInferenceAPIEmbeddingsComponent@officialœ,œidœ:œext:huggingface:HuggingFaceInferenceAPIEmbeddingsComponent@official-prAb6œ,œnameœ:œembeddingsœ,œoutput_typesœ:[œEmbeddingsœ]}-ext:chroma:ChromaVectorStoreComponent@official-iZ5Gq{œfieldNameœ:œembeddingœ,œidœ:œext:chroma:ChromaVectorStoreComponent@official-iZ5Gqœ,œinputTypesœ:[œEmbeddingsœ],œtypeœ:œotherœ}",
+        "selected": false,
+        "source": "ext:huggingface:HuggingFaceInferenceAPIEmbeddingsComponent@official-prAb6",
+        "sourceHandle": "{œdataTypeœ:œext:huggingface:HuggingFaceInferenceAPIEmbeddingsComponent@officialœ,œidœ:œext:huggingface:HuggingFaceInferenceAPIEmbeddingsComponent@official-prAb6œ,œnameœ:œembeddingsœ,œoutput_typesœ:[œEmbeddingsœ]}",
+        "target": "ext:chroma:ChromaVectorStoreComponent@official-iZ5Gq",
+        "targetHandle": "{œfieldNameœ:œembeddingœ,œidœ:œext:chroma:ChromaVectorStoreComponent@official-iZ5Gqœ,œinputTypesœ:[œEmbeddingsœ],œtypeœ:œotherœ}"
       },
       {
-        "id": "auto-post",
-        "type": "SlackPost",
-        "position": { "x": 1280, "y": 30 },
+        "animated": false,
+        "className": "",
         "data": {
-          "label": "Auto-post to #pm-daily",
-          "channel": "#pm-daily",
-          "_note": "Stub. Replace with a real Slack tool integration."
-        }
-      },
-      {
-        "id": "hand-off",
-        "type": "SlackPost",
-        "position": { "x": 1280, "y": 200 },
-        "data": {
-          "label": "Hand-off to #pm-juno-review",
-          "channel": "#pm-juno-review",
-          "tag": "@on-call-pm",
-          "_note": "Stub. Replace with a real Slack tool integration."
-        }
-      },
-      {
-        "id": "eval-log",
-        "type": "Logger",
-        "position": { "x": 1280, "y": 360 },
-        "data": {
-          "label": "Eval pipeline log",
-          "fields": ["trace_id", "trigger_payload", "retrieved_chunks", "tool_calls", "outputs", "confidence_per_risk", "pm_action", "latency_ms", "tokens", "cost_usd"]
-        }
+          "sourceHandle": {
+            "dataType": "ConditionalRouter",
+            "id": "ConditionalRouter-9lEXC",
+            "name": "true_result",
+            "output_types": [
+              "Message"
+            ]
+          },
+          "targetHandle": {
+            "fieldName": "input_value",
+            "id": "ChatOutput-NHELz",
+            "inputTypes": [
+              "Data",
+              "JSON",
+              "DataFrame",
+              "Table",
+              "Message"
+            ],
+            "type": "other"
+          }
+        },
+        "id": "xy-edge__ConditionalRouter-9lEXC{œdataTypeœ:œConditionalRouterœ,œidœ:œConditionalRouter-9lEXCœ,œnameœ:œtrue_resultœ,œoutput_typesœ:[œMessageœ]}-ChatOutput-NHELz{œfieldNameœ:œinput_valueœ,œidœ:œChatOutput-NHELzœ,œinputTypesœ:[œDataœ,œJSONœ,œDataFrameœ,œTableœ,œMessageœ],œtypeœ:œotherœ}",
+        "selected": false,
+        "source": "ConditionalRouter-9lEXC",
+        "sourceHandle": "{œdataTypeœ:œConditionalRouterœ,œidœ:œConditionalRouter-9lEXCœ,œnameœ:œtrue_resultœ,œoutput_typesœ:[œMessageœ]}",
+        "target": "ChatOutput-NHELz",
+        "targetHandle": "{œfieldNameœ:œinput_valueœ,œidœ:œChatOutput-NHELzœ,œinputTypesœ:[œDataœ,œJSONœ,œDataFrameœ,œTableœ,œMessageœ],œtypeœ:œotherœ}"
       }
     ],
-    "edges": [
-      { "source": "input-thread", "target": "system-prompt" },
-      { "source": "input-thread", "target": "retrieval" },
-      { "source": "retrieval", "target": "system-prompt" },
-      { "source": "system-prompt", "target": "llm" },
-      { "source": "llm", "target": "guardrail" },
-      { "source": "guardrail", "target": "auto-post", "label": "≥70%" },
-      { "source": "guardrail", "target": "hand-off", "label": "<70%" },
-      { "source": "llm", "target": "eval-log" }
-    ]
+    "nodes": [
+      {
+        "data": {
+          "id": "ChatInput-xCpx8",
+          "node": {
+            "base_classes": [
+              "Message"
+            ],
+            "beta": false,
+            "conditional_paths": [],
+            "custom_fields": {},
+            "description": "Get chat inputs from the Playground.",
+            "display_name": "Chat Input",
+            "documentation": "https://docs.langflow.org/chat-input-and-output",
+            "edited": false,
+            "field_order": [
+              "input_value",
+              "should_store_message",
+              "sender",
+              "sender_name",
+              "session_id",
+              "context_id",
+              "files"
+            ],
+            "frozen": false,
+            "icon": "MessagesSquare",
+            "legacy": false,
+            "lf_version": "1.12.0",
+            "metadata": {
+              "code_hash": "45974e6b1909",
+              "dependencies": {
+                "dependencies": [
+                  {
+                    "name": "lfx",
+                    "version": null
+                  }
+                ],
+                "total_dependencies": 1
+              },
+              "module": "lfx.components.input_output.chat.ChatInput"
+            },
+            "minimized": true,
+            "output_types": [],
+            "outputs": [
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "Chat Message",
+                "group_outputs": false,
+                "method": "message_response",
+                "name": "message",
+                "selected": "Message",
+                "tool_mode": true,
+                "types": [
+                  "Message"
+                ],
+                "value": "__UNDEFINED__"
+              }
+            ],
+            "pinned": false,
+            "template": {
+              "_type": "Component",
+              "code": {
+                "advanced": true,
+                "api_editable": false,
+                "dynamic": true,
+                "fileTypes": [],
+                "file_path": "",
+                "info": "",
+                "list": false,
+                "load_from_db": false,
+                "multiline": true,
+                "name": "code",
+                "password": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "type": "code",
+                "value": "from lfx.base.data.utils import IMG_FILE_TYPES, TEXT_FILE_TYPES\nfrom lfx.base.io.chat import ChatComponent\nfrom lfx.inputs.inputs import BoolInput\nfrom lfx.io import (\n    DropdownInput,\n    FileInput,\n    MessageTextInput,\n    MultilineInput,\n    Output,\n)\nfrom lfx.schema.image import get_file_paths\nfrom lfx.schema.message import Message\nfrom lfx.services.deps import get_settings_service\nfrom lfx.utils.constants import (\n    MESSAGE_SENDER_AI,\n    MESSAGE_SENDER_NAME_USER,\n    MESSAGE_SENDER_USER,\n)\nfrom lfx.utils.file_path_security import (\n    component_file_access_scopes,\n    enforce_local_file_access,\n    is_local_file_access_restricted,\n)\n\n\nclass ChatInput(ChatComponent):\n    display_name = \"Chat Input\"\n    description = \"Get chat inputs from the Playground.\"\n    documentation: str = \"https://docs.langflow.org/chat-input-and-output\"\n    icon = \"MessagesSquare\"\n    name = \"ChatInput\"\n    minimized = True\n\n    inputs = [\n        MultilineInput(\n            name=\"input_value\",\n            display_name=\"Input Text\",\n            value=\"\",\n            info=\"Message to be passed as input.\",\n            input_types=[],\n        ),\n        BoolInput(\n            name=\"should_store_message\",\n            display_name=\"Store Messages\",\n            info=\"Store the message in the history.\",\n            value=True,\n            advanced=True,\n        ),\n        DropdownInput(\n            name=\"sender\",\n            display_name=\"Sender Type\",\n            options=[MESSAGE_SENDER_AI, MESSAGE_SENDER_USER],\n            value=MESSAGE_SENDER_USER,\n            info=\"Type of sender.\",\n            advanced=True,\n        ),\n        MessageTextInput(\n            name=\"sender_name\",\n            display_name=\"Sender Name\",\n            info=\"Name of the sender.\",\n            value=MESSAGE_SENDER_NAME_USER,\n            advanced=True,\n        ),\n        MessageTextInput(\n            name=\"session_id\",\n            display_name=\"Session ID\",\n            info=\"The session ID of the chat. If empty, the current session ID parameter will be used.\",\n            advanced=True,\n        ),\n        MessageTextInput(\n            name=\"context_id\",\n            display_name=\"Context ID\",\n            info=\"The context ID of the chat. Adds an extra layer to the local memory.\",\n            value=\"\",\n            advanced=True,\n        ),\n        FileInput(\n            name=\"files\",\n            display_name=\"Files\",\n            file_types=TEXT_FILE_TYPES + IMG_FILE_TYPES,\n            info=\"Files to be sent with the message.\",\n            advanced=True,\n            is_list=True,\n            temp_file=True,\n        ),\n    ]\n    outputs = [\n        Output(display_name=\"Chat Message\", name=\"message\", method=\"message_response\"),\n    ]\n\n    async def message_response(self) -> Message:\n        # Ensure files is a list and filter out empty/None values\n        files = self.files if self.files else []\n        if files and not isinstance(files, list):\n            files = [files]\n        # Filter out None/empty values\n        files = [f for f in files if f is not None and f != \"\"]\n\n        # Build endpoints inject caller-controlled file references directly into\n        # ChatInput. Resolve and validate local references before the Message can\n        # later read them while constructing model attachment content.\n        if files:\n            settings_service = get_settings_service()\n            storage_type = getattr(getattr(settings_service, \"settings\", None), \"storage_type\", \"local\")\n            # The storage factory falls back to local storage for unsupported\n            # values, so only the explicitly configured S3 backend may bypass\n            # filesystem containment.\n            if str(storage_type).lower() != \"s3\" and is_local_file_access_restricted():\n                scope_ids = list(component_file_access_scopes(self))\n                # Public executions replace graph.flow_id with a per-visitor\n                # virtual ID. Only the server-populated source provenance may\n                # restore the already-validated public attachment namespace.\n                source_flow_id = getattr(self.graph, \"source_flow_id\", None)\n                if source_flow_id:\n                    scope_ids.append(source_flow_id)\n                for file_path in get_file_paths(files):\n                    enforce_local_file_access(file_path, scope_ids=scope_ids)\n\n        session_id = self.session_id or self.graph.session_id or \"\"\n        message = await Message.create(\n            text=self.input_value,\n            sender=self.sender,\n            sender_name=self.sender_name,\n            session_id=session_id,\n            context_id=self.context_id,\n            files=files,\n        )\n        if session_id and isinstance(message, Message) and self.should_store_message:\n            stored_message = await self.send_message(\n                message,\n            )\n            self.message.value = stored_message\n            message = stored_message\n\n        self.status = message\n        return message\n"
+              },
+              "context_id": {
+                "_input_type": "MessageTextInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Context ID",
+                "dynamic": false,
+                "info": "The context ID of the chat. Adds an extra layer to the local memory.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "context_id",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "files": {
+                "_input_type": "FileInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Files",
+                "dynamic": false,
+                "fileTypes": [
+                  "csv",
+                  "json",
+                  "pdf",
+                  "txt",
+                  "md",
+                  "mdx",
+                  "yaml",
+                  "yml",
+                  "xml",
+                  "html",
+                  "htm",
+                  "docx",
+                  "py",
+                  "sh",
+                  "sql",
+                  "js",
+                  "ts",
+                  "tsx",
+                  "jpg",
+                  "jpeg",
+                  "png",
+                  "bmp",
+                  "image"
+                ],
+                "file_path": "",
+                "info": "Files to be sent with the message.",
+                "list": true,
+                "list_add_label": "Add More",
+                "name": "files",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "temp_file": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "file",
+                "value": ""
+              },
+              "input_value": {
+                "_input_type": "MultilineInput",
+                "advanced": false,
+                "ai_enabled": false,
+                "api_editable": false,
+                "copy_field": false,
+                "display_name": "Input Text",
+                "dynamic": false,
+                "info": "Message to be passed as input.",
+                "input_types": [],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "multiline": true,
+                "name": "input_value",
+                "override_skip": false,
+                "password": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "sender": {
+                "_input_type": "DropdownInput",
+                "advanced": true,
+                "api_editable": false,
+                "combobox": false,
+                "dialog_inputs": {},
+                "display_name": "Sender Type",
+                "dynamic": false,
+                "external_options": {},
+                "info": "Type of sender.",
+                "name": "sender",
+                "options": [
+                  "Machine",
+                  "User"
+                ],
+                "options_metadata": [],
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "toggle": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "str",
+                "value": "User"
+              },
+              "sender_name": {
+                "_input_type": "MessageTextInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Sender Name",
+                "dynamic": false,
+                "info": "Name of the sender.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "sender_name",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": "User"
+              },
+              "session_id": {
+                "_input_type": "MessageTextInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Session ID",
+                "dynamic": false,
+                "info": "The session ID of the chat. If empty, the current session ID parameter will be used.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "session_id",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "should_store_message": {
+                "_input_type": "BoolInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Store Messages",
+                "dynamic": false,
+                "info": "Store the message in the history.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "should_store_message",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "bool",
+                "value": true
+              }
+            },
+            "tool_mode": false
+          },
+          "showNode": false,
+          "type": "ChatInput"
+        },
+        "dragging": false,
+        "id": "ChatInput-xCpx8",
+        "measured": {
+          "height": 52,
+          "width": 192
+        },
+        "position": {
+          "x": -315.4267883397986,
+          "y": 99.33642771155638
+        },
+        "selected": false,
+        "type": "genericNode"
+      },
+      {
+        "data": {
+          "id": "ext:google:GoogleGenerativeAIComponent@official-ZjAPz",
+          "node": {
+            "base_classes": [
+              "LanguageModel",
+              "Message"
+            ],
+            "beta": false,
+            "bundle": "google",
+            "conditional_paths": [],
+            "custom_fields": {},
+            "description": "Generate text using Google Generative AI.",
+            "display_name": "Google Generative AI",
+            "documentation": "",
+            "edited": false,
+            "extension": "lfx-google",
+            "extension_version": "0.1.1",
+            "field_order": [
+              "input_value",
+              "system_message",
+              "stream",
+              "max_output_tokens",
+              "model_name",
+              "api_key",
+              "top_p",
+              "temperature",
+              "n",
+              "top_k",
+              "tool_model_enabled"
+            ],
+            "frozen": false,
+            "icon": "GoogleGenerativeAI",
+            "last_updated": "2026-09-20T17:45:32.188Z",
+            "legacy": false,
+            "lf_version": "1.12.0",
+            "metadata": {
+              "code_hash": "f28309bed516",
+              "dependencies": {
+                "dependencies": [
+                  {
+                    "name": "requests",
+                    "version": "2.34.2"
+                  },
+                  {
+                    "name": "google",
+                    "version": "2.25.2"
+                  },
+                  {
+                    "name": "lfx",
+                    "version": "1.12.0"
+                  },
+                  {
+                    "name": "pydantic",
+                    "version": "2.13.4"
+                  },
+                  {
+                    "name": "langchain_google_genai",
+                    "version": "4.1.3"
+                  }
+                ],
+                "total_dependencies": 5
+              },
+              "keywords": [
+                "model",
+                "llm",
+                "language model",
+                "large language model"
+              ],
+              "model_provider_display_name": "Google Generative AI",
+              "model_provider_id": "google-generative-ai",
+              "model_provider_policy_mode": "standalone",
+              "module": "_lfx_ext.official.google.google_generative_ai"
+            },
+            "minimized": false,
+            "name": "GoogleGenerativeAIModel",
+            "namespaced_id": "ext:google:GoogleGenerativeAIComponent@official",
+            "output_types": [],
+            "outputs": [
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "Model Response",
+                "group_outputs": false,
+                "loop_types": null,
+                "method": "text_response",
+                "name": "text_output",
+                "options": null,
+                "required_inputs": null,
+                "selected": "Message",
+                "tool_mode": true,
+                "types": [
+                  "Message"
+                ],
+                "value": "__UNDEFINED__"
+              },
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "Language Model",
+                "group_outputs": false,
+                "loop_types": null,
+                "method": "build_model",
+                "name": "model_output",
+                "options": null,
+                "required_inputs": null,
+                "selected": "LanguageModel",
+                "tool_mode": true,
+                "types": [
+                  "LanguageModel"
+                ],
+                "value": "__UNDEFINED__"
+              }
+            ],
+            "pinned": false,
+            "template": {
+              "_frontend_node_flow_id": {
+                "value": "5db4e37d-35dc-422f-af4c-7559e126b20e"
+              },
+              "_frontend_node_folder_id": {
+                "value": "dc4ba893-4afa-4a6f-ae33-0d0c0087d1f4"
+              },
+              "_type": "Component",
+              "api_key": {
+                "_input_type": "SecretStrInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Google API Key",
+                "dynamic": false,
+                "info": "The Google API Key to use for the Google Generative AI.",
+                "input_types": [],
+                "load_from_db": false,
+                "name": "api_key",
+                "override_skip": false,
+                "password": true,
+                "placeholder": "",
+                "real_time_refresh": true,
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "code": {
+                "advanced": true,
+                "api_editable": false,
+                "dynamic": true,
+                "fileTypes": [],
+                "file_path": "",
+                "info": "",
+                "list": false,
+                "load_from_db": false,
+                "multiline": true,
+                "name": "code",
+                "password": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "type": "code",
+                "value": "from typing import Any\n\nimport requests\nfrom google import genai\nfrom lfx.base.models.google_generative_ai_constants import GOOGLE_GENERATIVE_AI_MODELS\nfrom lfx.base.models.google_generative_ai_model import ChatGoogleGenerativeAIFixed\nfrom lfx.base.models.model import LCModelComponent\nfrom lfx.field_typing import LanguageModel\nfrom lfx.field_typing.range_spec import RangeSpec\nfrom lfx.inputs.inputs import BoolInput, DropdownInput, FloatInput, IntInput, SecretStrInput, SliderInput\nfrom lfx.log.logger import logger\nfrom lfx.schema.dotdict import dotdict\nfrom pydantic.v1 import SecretStr\n\n\nclass GoogleGenerativeAIComponent(LCModelComponent):\n    display_name = \"Google Generative AI\"\n    description = \"Generate text using Google Generative AI.\"\n    icon = \"GoogleGenerativeAI\"\n    name = \"GoogleGenerativeAIModel\"\n\n    inputs = [\n        *LCModelComponent.get_base_inputs(),\n        IntInput(\n            name=\"max_output_tokens\", display_name=\"Max Output Tokens\", info=\"The maximum number of tokens to generate.\"\n        ),\n        DropdownInput(\n            name=\"model_name\",\n            display_name=\"Model\",\n            info=\"The name of the model to use.\",\n            options=GOOGLE_GENERATIVE_AI_MODELS,\n            value=\"gemini-2.5-flash\",\n            refresh_button=True,\n            combobox=True,\n        ),\n        SecretStrInput(\n            name=\"api_key\",\n            display_name=\"Google API Key\",\n            info=\"The Google API Key to use for the Google Generative AI.\",\n            required=True,\n            real_time_refresh=True,\n        ),\n        FloatInput(\n            name=\"top_p\",\n            display_name=\"Top P\",\n            info=\"The maximum cumulative probability of tokens to consider when sampling.\",\n            advanced=True,\n        ),\n        SliderInput(\n            name=\"temperature\",\n            display_name=\"Temperature\",\n            value=0.1,\n            range_spec=RangeSpec(min=0, max=1, step=0.01),\n            info=\"Controls randomness. Lower values are more deterministic, higher values are more creative.\",\n        ),\n        IntInput(\n            name=\"n\",\n            display_name=\"N\",\n            info=\"Number of chat completions to generate for each prompt. \"\n            \"Note that the API may not return the full n completions if duplicates are generated.\",\n            advanced=True,\n        ),\n        IntInput(\n            name=\"top_k\",\n            display_name=\"Top K\",\n            info=\"Decode using top-k sampling: consider the set of top_k most probable tokens. Must be positive.\",\n            advanced=True,\n        ),\n        BoolInput(\n            name=\"tool_model_enabled\",\n            display_name=\"Tool Model Enabled\",\n            info=\"Whether to use the tool model.\",\n            value=False,\n        ),\n    ]\n\n    def build_model(self) -> LanguageModel:  # type: ignore[type-var]\n        google_api_key = self.api_key\n        model = self.model_name\n        max_output_tokens = self.max_output_tokens\n        temperature = self.temperature\n        top_k = self.top_k\n        top_p = self.top_p\n        n = self.n\n\n        # Use modified ChatGoogleGenerativeAIFixed class for multiple function support\n        # TODO: Potentially remove when fixed upstream\n        return ChatGoogleGenerativeAIFixed(\n            model=model,\n            max_output_tokens=max_output_tokens or None,\n            temperature=temperature,\n            top_k=top_k or None,\n            top_p=top_p or None,\n            n=n or 1,\n            google_api_key=SecretStr(google_api_key).get_secret_value(),\n        )\n\n    def get_models(self, *, tool_model_enabled: bool | None = None) -> list[str]:\n        try:\n            with genai.Client(api_key=self.api_key) as client:\n                model_ids = [\n                    model.name.removeprefix(\"models/\")\n                    for model in client.models.list()\n                    if model.name and \"generateContent\" in (model.supported_actions or [])\n                ]\n            model_ids.sort(reverse=True)\n        except (genai.errors.APIError, ValueError) as e:\n            logger.exception(f\"Error getting model names: {e}\")\n            model_ids = GOOGLE_GENERATIVE_AI_MODELS\n        if tool_model_enabled:\n            try:\n                from langchain_google_genai.chat_models import ChatGoogleGenerativeAI\n            except ImportError as e:\n                msg = \"langchain_google_genai is not installed.\"\n                raise ImportError(msg) from e\n            model_ids = [\n                model\n                for model in model_ids\n                if self.supports_tool_calling(ChatGoogleGenerativeAI(model=model, google_api_key=self.api_key))\n            ]\n        return model_ids\n\n    def update_build_config(self, build_config: dotdict, field_value: Any, field_name: str | None = None):\n        if field_name in {\"base_url\", \"model_name\", \"tool_model_enabled\", \"api_key\"} and field_value:\n            try:\n                if len(self.api_key) == 0:\n                    ids = GOOGLE_GENERATIVE_AI_MODELS\n                else:\n                    try:\n                        ids = self.get_models(tool_model_enabled=self.tool_model_enabled)\n                    except (ImportError, ValueError, requests.exceptions.RequestException) as e:\n                        logger.exception(f\"Error getting model names: {e}\")\n                        ids = GOOGLE_GENERATIVE_AI_MODELS\n                build_config.setdefault(\"model_name\", {})\n                build_config[\"model_name\"][\"options\"] = ids\n                if ids:\n                    build_config[\"model_name\"].setdefault(\"value\", ids[0])\n                else:\n                    build_config[\"model_name\"].pop(\"value\", None)\n            except Exception as e:\n                msg = f\"Error getting model names: {e}\"\n                raise ValueError(msg) from e\n        return build_config\n"
+              },
+              "input_value": {
+                "_input_type": "MessageInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Input",
+                "dynamic": false,
+                "info": "",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "input_value",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "is_refresh": false,
+              "max_output_tokens": {
+                "_input_type": "IntInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Max Output Tokens",
+                "dynamic": false,
+                "info": "The maximum number of tokens to generate.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "max_output_tokens",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "int",
+                "value": 0
+              },
+              "model_name": {
+                "_input_type": "DropdownInput",
+                "advanced": false,
+                "api_editable": false,
+                "combobox": true,
+                "dialog_inputs": {},
+                "display_name": "Model",
+                "dynamic": false,
+                "external_options": {},
+                "info": "The name of the model to use.",
+                "name": "model_name",
+                "options": [
+                  "nano-banana-pro-preview",
+                  "lyria-3.5",
+                  "lyria-3-pro-preview",
+                  "lyria-3-clip-preview",
+                  "gemma-4-31b-it",
+                  "gemma-4-26b-a4b-it",
+                  "gemini-robotics-er-2-preview",
+                  "gemini-pro-latest",
+                  "gemini-omni-flash-preview",
+                  "gemini-omni-1.1-flash",
+                  "gemini-flash-lite-latest",
+                  "gemini-flash-latest",
+                  "gemini-3.8-flash",
+                  "gemini-3.7-flash",
+                  "gemini-3.6-flash",
+                  "gemini-3.5-transcribe",
+                  "gemini-3.5-flash-lite",
+                  "gemini-3.5-flash",
+                  "gemini-3.1-pro-preview-customtools",
+                  "gemini-3.1-pro-preview",
+                  "gemini-3.1-flash-tts-preview",
+                  "gemini-3.1-flash-lite-preview",
+                  "gemini-3.1-flash-lite-image",
+                  "gemini-3.1-flash-lite",
+                  "gemini-3.1-flash-image-preview",
+                  "gemini-3.1-flash-image",
+                  "gemini-3-pro-image-preview",
+                  "gemini-3-pro-image",
+                  "gemini-3-flash-preview",
+                  "gemini-2.5-pro-preview-tts",
+                  "gemini-2.5-pro",
+                  "gemini-2.5-flash-preview-tts",
+                  "gemini-2.5-flash-lite",
+                  "gemini-2.5-flash-image",
+                  "gemini-2.5-flash",
+                  "gemini-2.5-computer-use-preview-10-2025",
+                  "deep-research-pro-preview-12-2025",
+                  "deep-research-preview-04-2026",
+                  "deep-research-max-preview-04-2026",
+                  "antigravity-preview-09-2026",
+                  "antigravity-preview-05-2026"
+                ],
+                "options_metadata": [],
+                "override_skip": false,
+                "placeholder": "",
+                "refresh_button": true,
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "toggle": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "str",
+                "value": "gemini-3.6-flash"
+              },
+              "n": {
+                "_input_type": "IntInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "N",
+                "dynamic": false,
+                "info": "Number of chat completions to generate for each prompt. Note that the API may not return the full n completions if duplicates are generated.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "n",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "int",
+                "value": 0
+              },
+              "stream": {
+                "_input_type": "BoolInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Stream",
+                "dynamic": false,
+                "info": "Stream the response from the model. Streaming works only in Chat.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "stream",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "bool",
+                "value": false
+              },
+              "system_message": {
+                "_input_type": "MultilineInput",
+                "advanced": false,
+                "ai_enabled": false,
+                "api_editable": false,
+                "copy_field": false,
+                "display_name": "System Message",
+                "dynamic": false,
+                "info": "System message to pass to the model.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "multiline": true,
+                "name": "system_message",
+                "override_skip": false,
+                "password": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": "You are Juno. Your single goal is to synthesize customer signals into evidence-backed PRD drafts evaluated by a 6-agent review squad, never hallucinating customer citations or bypassing technical debt gates.  If your calculated confidence is >= 0.70, you must include the exact string \"STATUS_APPROVED\" in your output. Otherwise, include the exact string \"STATUS_ESCALATE\".  Output your final response strictly as a JSON object containing the following keys: - \"risks\": A summary of any risks or technical debt flagged by the squad. - \"confidence\": A numeric score between 0.00 and 1.00. - \"citations\": An array of at least 3 exact verbatim quotes extracted from the provided context. - \"routing_status\": The exact status string (\"STATUS_APPROVED\" or \"STATUS_ESCALATE\")."
+              },
+              "temperature": {
+                "_input_type": "SliderInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Temperature",
+                "dynamic": false,
+                "info": "Controls randomness. Lower values are more deterministic, higher values are more creative.",
+                "max_label": "",
+                "max_label_icon": "",
+                "min_label": "",
+                "min_label_icon": "",
+                "name": "temperature",
+                "override_skip": false,
+                "placeholder": "",
+                "range_spec": {
+                  "max": 1,
+                  "min": 0,
+                  "step": 0.01,
+                  "step_type": "float"
+                },
+                "required": false,
+                "show": true,
+                "slider_buttons": false,
+                "slider_buttons_options": [],
+                "slider_input": false,
+                "title_case": false,
+                "tool_mode": false,
+                "track_in_telemetry": false,
+                "type": "slider",
+                "value": 0.2
+              },
+              "tool_model_enabled": {
+                "_input_type": "BoolInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Tool Model Enabled",
+                "dynamic": false,
+                "info": "Whether to use the tool model.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "tool_model_enabled",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "bool",
+                "value": false
+              },
+              "top_k": {
+                "_input_type": "IntInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Top K",
+                "dynamic": false,
+                "info": "Decode using top-k sampling: consider the set of top_k most probable tokens. Must be positive.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "top_k",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "int",
+                "value": 0
+              },
+              "top_p": {
+                "_input_type": "FloatInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Top P",
+                "dynamic": false,
+                "info": "The maximum cumulative probability of tokens to consider when sampling.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "top_p",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "float",
+                "value": ""
+              }
+            },
+            "tool_mode": false
+          },
+          "selected_output": "text_output",
+          "showNode": true,
+          "type": "ext:google:GoogleGenerativeAIComponent@official"
+        },
+        "dragging": false,
+        "id": "ext:google:GoogleGenerativeAIComponent@official-ZjAPz",
+        "measured": {
+          "height": 665,
+          "width": 320
+        },
+        "position": {
+          "x": 736.5056760304053,
+          "y": 60.19621664112611
+        },
+        "selected": false,
+        "type": "genericNode"
+      },
+      {
+        "data": {
+          "id": "ext:chroma:ChromaVectorStoreComponent@official-iZ5Gq",
+          "node": {
+            "base_classes": [
+              "JSON",
+              "Table"
+            ],
+            "beta": false,
+            "bundle": "chroma",
+            "conditional_paths": [],
+            "custom_fields": {},
+            "description": "Chroma Vector Store with search capabilities",
+            "display_name": "Chroma DB",
+            "documentation": "",
+            "edited": false,
+            "extension": "lfx-bundles",
+            "extension_version": "1.1.18",
+            "field_order": [
+              "collection_name",
+              "persist_directory",
+              "ingest_data",
+              "search_query",
+              "should_cache_vector_store",
+              "embedding",
+              "chroma_server_cors_allow_origins",
+              "chroma_server_host",
+              "chroma_server_http_port",
+              "chroma_server_grpc_port",
+              "chroma_server_ssl_enabled",
+              "allow_duplicates",
+              "search_type",
+              "number_of_results",
+              "limit"
+            ],
+            "frozen": false,
+            "icon": "Chroma",
+            "legacy": false,
+            "metadata": {
+              "code_hash": "33f8cd4a571f",
+              "dependencies": {
+                "dependencies": [
+                  {
+                    "name": "langchain_chroma",
+                    "version": "0.2.6"
+                  },
+                  {
+                    "name": "lfx",
+                    "version": "1.12.0"
+                  },
+                  {
+                    "name": "typing_extensions",
+                    "version": "4.16.0"
+                  },
+                  {
+                    "name": "chromadb",
+                    "version": "1.5.9"
+                  },
+                  {
+                    "name": "langchain_community",
+                    "version": "0.4.2"
+                  }
+                ],
+                "total_dependencies": 5
+              },
+              "module": "_lfx_ext.official.chroma.chroma"
+            },
+            "minimized": false,
+            "name": "Chroma",
+            "namespaced_id": "ext:chroma:ChromaVectorStoreComponent@official",
+            "output_types": [],
+            "outputs": [
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "Search Results",
+                "group_outputs": false,
+                "method": "search_documents",
+                "name": "search_results",
+                "selected": "JSON",
+                "tool_mode": true,
+                "types": [
+                  "JSON"
+                ],
+                "value": "__UNDEFINED__"
+              },
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "Table",
+                "group_outputs": false,
+                "method": "as_dataframe",
+                "name": "dataframe",
+                "tool_mode": true,
+                "types": [
+                  "Table"
+                ],
+                "value": "__UNDEFINED__"
+              }
+            ],
+            "pinned": false,
+            "template": {
+              "_type": "Component",
+              "allow_duplicates": {
+                "_input_type": "BoolInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Allow Duplicates",
+                "dynamic": false,
+                "info": "If false, will not add documents that are already in the Vector Store.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "allow_duplicates",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "bool",
+                "value": false
+              },
+              "chroma_server_cors_allow_origins": {
+                "_input_type": "StrInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Server CORS Allow Origins",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "chroma_server_cors_allow_origins",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "chroma_server_grpc_port": {
+                "_input_type": "IntInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Server gRPC Port",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "chroma_server_grpc_port",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "int",
+                "value": 0
+              },
+              "chroma_server_host": {
+                "_input_type": "StrInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Server Host",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "chroma_server_host",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "chroma_server_http_port": {
+                "_input_type": "IntInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Server HTTP Port",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "chroma_server_http_port",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "int",
+                "value": 0
+              },
+              "chroma_server_ssl_enabled": {
+                "_input_type": "BoolInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Server SSL Enabled",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "chroma_server_ssl_enabled",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "bool",
+                "value": false
+              },
+              "code": {
+                "advanced": true,
+                "api_editable": false,
+                "dynamic": true,
+                "fileTypes": [],
+                "file_path": "",
+                "info": "",
+                "list": false,
+                "load_from_db": false,
+                "multiline": true,
+                "name": "code",
+                "password": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "type": "code",
+                "value": "from copy import deepcopy\nfrom typing import TYPE_CHECKING\n\nfrom langchain_chroma import Chroma\nfrom lfx.base.vectorstores.chroma_security import chroma_langchain_collection_kwargs\nfrom lfx.base.vectorstores.model import LCVectorStoreComponent, check_cached_vector_store\nfrom lfx.base.vectorstores.user_scoping import runtime_user_id, scoped_collection_name\nfrom lfx.base.vectorstores.utils import chroma_collection_to_data\nfrom lfx.inputs.inputs import BoolInput, DropdownInput, HandleInput, IntInput, StrInput\nfrom lfx.schema.data import Data\nfrom lfx.utils.file_path_security import enforce_local_file_access\nfrom lfx.utils.ssrf_protection import validate_connector_url_for_ssrf\nfrom typing_extensions import override\n\nif TYPE_CHECKING:\n    from lfx.schema.dataframe import DataFrame\n\n\nclass ChromaVectorStoreComponent(LCVectorStoreComponent):\n    \"\"\"Chroma Vector Store with search capabilities.\"\"\"\n\n    display_name: str = \"Chroma DB\"\n    description: str = \"Chroma Vector Store with search capabilities\"\n    name = \"Chroma\"\n    icon = \"Chroma\"\n\n    inputs = [\n        StrInput(\n            name=\"collection_name\",\n            display_name=\"Collection Name\",\n            value=\"langflow\",\n        ),\n        StrInput(\n            name=\"persist_directory\",\n            display_name=\"Persist Directory\",\n        ),\n        *LCVectorStoreComponent.inputs,\n        HandleInput(name=\"embedding\", display_name=\"Embedding\", input_types=[\"Embeddings\"]),\n        StrInput(\n            name=\"chroma_server_cors_allow_origins\",\n            display_name=\"Server CORS Allow Origins\",\n            advanced=True,\n        ),\n        StrInput(\n            name=\"chroma_server_host\",\n            display_name=\"Server Host\",\n            advanced=True,\n        ),\n        IntInput(\n            name=\"chroma_server_http_port\",\n            display_name=\"Server HTTP Port\",\n            advanced=True,\n        ),\n        IntInput(\n            name=\"chroma_server_grpc_port\",\n            display_name=\"Server gRPC Port\",\n            advanced=True,\n        ),\n        BoolInput(\n            name=\"chroma_server_ssl_enabled\",\n            display_name=\"Server SSL Enabled\",\n            advanced=True,\n        ),\n        BoolInput(\n            name=\"allow_duplicates\",\n            display_name=\"Allow Duplicates\",\n            advanced=True,\n            info=\"If false, will not add documents that are already in the Vector Store.\",\n        ),\n        DropdownInput(\n            name=\"search_type\",\n            display_name=\"Search Type\",\n            options=[\"Similarity\", \"MMR\"],\n            value=\"Similarity\",\n            advanced=True,\n        ),\n        IntInput(\n            name=\"number_of_results\",\n            display_name=\"Number of Results\",\n            info=\"Number of results to return.\",\n            advanced=True,\n            value=10,\n        ),\n        IntInput(\n            name=\"limit\",\n            display_name=\"Limit\",\n            advanced=True,\n            info=\"Limit the number of records to compare when Allow Duplicates is False.\",\n        ),\n    ]\n\n    @override\n    @check_cached_vector_store\n    def build_vector_store(self) -> Chroma:\n        \"\"\"Builds the Chroma object.\"\"\"\n        try:\n            from langchain_chroma import Chroma\n        except ImportError as e:\n            msg = \"Could not import Chroma integration package. Please install it with `pip install langchain-chroma`.\"\n            raise ImportError(msg) from e\n        client = None\n        if self.chroma_server_host:\n            try:\n                from chromadb import HttpClient\n            except ImportError as e:\n                msg = \"Could not import chromadb. Please install it with `pip install chromadb`.\"\n                raise ImportError(msg) from e\n            scheme = \"https\" if self.chroma_server_ssl_enabled else \"http\"\n            validate_connector_url_for_ssrf(\n                f\"{scheme}://{self.chroma_server_host}:{self.chroma_server_http_port or 8000}\"\n            )\n            client = HttpClient(\n                host=self.chroma_server_host,\n                port=self.chroma_server_http_port or 8000,\n                ssl=bool(self.chroma_server_ssl_enabled),\n            )\n\n        # Check persist_directory and expand it if it is a relative path. Confine the resolved\n        # path to the storage dir when LANGFLOW_RESTRICT_LOCAL_FILE_ACCESS is on so a tenant\n        # cannot point Chroma's on-disk sqlite store at an arbitrary host path (no-op by default).\n        persist_directory = (\n            str(enforce_local_file_access(self.resolve_path(self.persist_directory)))\n            if self.persist_directory is not None\n            else None\n        )\n\n        # Scope the collection name by runtime user for local stores so two users\n        # sharing the same persist_directory + collection_name cannot read each\n        # other's documents. Remote/server-backed stores are left untouched.\n        collection_name = self.collection_name\n        if client is None:\n            collection_name = scoped_collection_name(collection_name, runtime_user_id(self))\n\n        from chromadb.errors import ChromaError\n\n        try:\n            chroma = Chroma(\n                persist_directory=persist_directory,\n                client=client,\n                embedding_function=self.embedding,\n                collection_name=collection_name,\n                **chroma_langchain_collection_kwargs(),\n            )\n        except Exception as e:\n            if isinstance(e, ChromaError):\n                if not persist_directory and client is None:\n                    msg = \"Chroma DB failed to initialize. Please set a 'Persist Directory' path (e.g., './chroma_db').\"\n                elif not persist_directory:\n                    msg = f\"Chroma DB failed to initialize in server mode: {e}.\"\n                else:\n                    msg = (\n                        f\"Chroma DB failed at '{persist_directory}': {e}. \"\n                        \"If you deleted the database, restart the server and re-run ingestion.\"\n                    )\n                raise RuntimeError(msg) from e  # noqa: TRY004\n            raise\n\n        self._add_documents_to_vector_store(chroma)\n        limit = int(self.limit) if self.limit is not None and str(self.limit).strip() else None\n        self.status = chroma_collection_to_data(chroma.get(limit=limit))\n        return chroma\n\n    def _add_documents_to_vector_store(self, vector_store: \"Chroma\") -> None:\n        \"\"\"Adds documents to the Vector Store.\"\"\"\n        ingest_data: list | Data | DataFrame = self.ingest_data\n        if not ingest_data:\n            self.status = \"\"\n            return\n\n        # Convert DataFrame to Data if needed using parent's method\n        ingest_data = self._prepare_ingest_data()\n\n        stored_documents_without_id = []\n        if self.allow_duplicates:\n            stored_data = []\n        else:\n            limit = int(self.limit) if self.limit is not None and str(self.limit).strip() else None\n            stored_data = chroma_collection_to_data(vector_store.get(limit=limit))\n            for value in deepcopy(stored_data):\n                del value.id\n                stored_documents_without_id.append(value)\n\n        documents = []\n        for _input in ingest_data or []:\n            if isinstance(_input, Data):\n                if _input not in stored_documents_without_id:\n                    documents.append(_input.to_lc_document())\n            else:\n                msg = \"Vector Store Inputs must be Data objects.\"\n                raise TypeError(msg)\n\n        if documents and self.embedding is not None:\n            self.log(f\"Adding {len(documents)} documents to the Vector Store.\")\n            # Filter complex metadata to prevent ChromaDB errors\n            try:\n                from langchain_community.vectorstores.utils import filter_complex_metadata\n\n                filtered_documents = filter_complex_metadata(documents)\n                vector_store.add_documents(filtered_documents)\n            except ImportError:\n                self.log(\"Warning: Could not import filter_complex_metadata. Adding documents without filtering.\")\n                vector_store.add_documents(documents)\n        else:\n            self.log(\"No documents to add to the Vector Store.\")\n"
+              },
+              "collection_name": {
+                "_input_type": "StrInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Collection Name",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "collection_name",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": "langflow"
+              },
+              "embedding": {
+                "_input_type": "HandleInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Embedding",
+                "dynamic": false,
+                "info": "",
+                "input_types": [
+                  "Embeddings"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "embedding",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "other",
+                "value": ""
+              },
+              "ingest_data": {
+                "_input_type": "HandleInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Ingest Data",
+                "dynamic": false,
+                "info": "",
+                "input_types": [
+                  "Data",
+                  "DataFrame",
+                  "Table"
+                ],
+                "list": true,
+                "list_add_label": "Add More",
+                "name": "ingest_data",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "other",
+                "value": ""
+              },
+              "limit": {
+                "_input_type": "IntInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Limit",
+                "dynamic": false,
+                "info": "Limit the number of records to compare when Allow Duplicates is False.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "limit",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "int",
+                "value": 0
+              },
+              "number_of_results": {
+                "_input_type": "IntInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Number of Results",
+                "dynamic": false,
+                "info": "Number of results to return.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "number_of_results",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "int",
+                "value": 10
+              },
+              "persist_directory": {
+                "_input_type": "StrInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Persist Directory",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "persist_directory",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "search_query": {
+                "_input_type": "QueryInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Search Query",
+                "dynamic": false,
+                "info": "Enter a query to run a similarity search.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "search_query",
+                "override_skip": false,
+                "placeholder": "Enter a query...",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": true,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "query",
+                "value": ""
+              },
+              "search_type": {
+                "_input_type": "DropdownInput",
+                "advanced": true,
+                "api_editable": false,
+                "combobox": false,
+                "dialog_inputs": {},
+                "display_name": "Search Type",
+                "dynamic": false,
+                "external_options": {},
+                "info": "",
+                "name": "search_type",
+                "options": [
+                  "Similarity",
+                  "MMR"
+                ],
+                "options_metadata": [],
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "toggle": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "str",
+                "value": "Similarity"
+              },
+              "should_cache_vector_store": {
+                "_input_type": "BoolInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Cache Vector Store",
+                "dynamic": false,
+                "info": "If True, the vector store will be cached for the current build of the component. This is useful for components that have multiple output methods and want to share the same vector store.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "should_cache_vector_store",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "bool",
+                "value": true
+              }
+            },
+            "tool_mode": false
+          },
+          "selected_output": "search_results",
+          "showNode": true,
+          "type": "ext:chroma:ChromaVectorStoreComponent@official"
+        },
+        "dragging": false,
+        "id": "ext:chroma:ChromaVectorStoreComponent@official-iZ5Gq",
+        "measured": {
+          "height": 459,
+          "width": 320
+        },
+        "position": {
+          "x": -978.3702347223298,
+          "y": -282.6829896392991
+        },
+        "selected": false,
+        "type": "genericNode"
+      },
+      {
+        "data": {
+          "id": "Prompt Template-gxOlN",
+          "node": {
+            "add_tool_output": null,
+            "base_classes": [
+              "Message"
+            ],
+            "beta": false,
+            "conditional_paths": [],
+            "custom_fields": {
+              "template": [
+                "context",
+                "request"
+              ]
+            },
+            "description": "Create a prompt template with dynamic variables.",
+            "display_name": "Prompt Template",
+            "documentation": "https://docs.langflow.org/components-prompts",
+            "edited": false,
+            "error": null,
+            "field_order": [
+              "template",
+              "use_double_brackets",
+              "tool_placeholder"
+            ],
+            "frozen": false,
+            "full_path": null,
+            "icon": "prompts",
+            "is_composition": null,
+            "is_input": null,
+            "is_output": null,
+            "legacy": false,
+            "lf_version": "1.12.0",
+            "metadata": {
+              "code_hash": "e3714ffe5d15",
+              "dependencies": {
+                "dependencies": [
+                  {
+                    "name": "lfx",
+                    "version": null
+                  }
+                ],
+                "total_dependencies": 1
+              },
+              "module": "lfx.components.models_and_agents.prompt.PromptComponent"
+            },
+            "minimized": false,
+            "name": "",
+            "output_types": [],
+            "outputs": [
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "Prompt",
+                "group_outputs": false,
+                "hidden": null,
+                "loop_types": null,
+                "method": "build_prompt",
+                "name": "prompt",
+                "options": null,
+                "required_inputs": null,
+                "selected": "Message",
+                "tool_mode": true,
+                "types": [
+                  "Message"
+                ],
+                "value": "__UNDEFINED__"
+              }
+            ],
+            "pinned": false,
+            "priority": null,
+            "replacement": null,
+            "template": {
+              "_type": "Component",
+              "code": {
+                "advanced": true,
+                "api_editable": false,
+                "dynamic": true,
+                "fileTypes": [],
+                "file_path": "",
+                "info": "",
+                "list": false,
+                "load_from_db": false,
+                "multiline": true,
+                "name": "code",
+                "password": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "type": "code",
+                "value": "from typing import Any\n\nfrom lfx.base.prompts.api_utils import process_prompt_template\nfrom lfx.custom.custom_component.component import Component\nfrom lfx.inputs.input_mixin import FieldTypes\nfrom lfx.inputs.inputs import DefaultPromptField\nfrom lfx.io import BoolInput, MessageTextInput, Output, PromptInput\nfrom lfx.log.logger import logger\nfrom lfx.schema.dotdict import dotdict\nfrom lfx.schema.message import Message\nfrom lfx.template.utils import update_template_values\nfrom lfx.utils.mustache_security import validate_mustache_template\n\n\nclass PromptComponent(Component):\n    display_name: str = \"Prompt Template\"\n    description: str = \"Create a prompt template with dynamic variables.\"\n    documentation: str = \"https://docs.langflow.org/components-prompts\"\n    icon = \"prompts\"\n    trace_type = \"prompt\"\n    name = \"Prompt Template\"\n\n    inputs = [\n        PromptInput(name=\"template\", display_name=\"Template\"),\n        BoolInput(\n            name=\"use_double_brackets\",\n            display_name=\"Use Double Brackets\",\n            value=False,\n            advanced=True,\n            info=\"Use {{variable}} syntax instead of {variable}.\",\n            real_time_refresh=True,\n        ),\n        MessageTextInput(\n            name=\"tool_placeholder\",\n            display_name=\"Tool Placeholder\",\n            tool_mode=True,\n            advanced=True,\n            show=False,\n            info=\"A placeholder input for tool mode.\",\n        ),\n    ]\n\n    outputs = [\n        Output(display_name=\"Prompt\", name=\"prompt\", method=\"build_prompt\"),\n    ]\n\n    def update_build_config(self, build_config: dotdict, field_value: Any, field_name: str | None = None) -> dotdict:\n        \"\"\"Update the template field type based on the selected mode.\"\"\"\n        if field_name == \"use_double_brackets\":\n            # Change the template field type based on mode\n            is_mustache = field_value is True\n            if is_mustache:\n                build_config[\"template\"][\"type\"] = FieldTypes.MUSTACHE_PROMPT.value\n            else:\n                build_config[\"template\"][\"type\"] = FieldTypes.PROMPT.value\n\n            # Re-process the template to update variables when mode changes\n            template_value = build_config.get(\"template\", {}).get(\"value\", \"\")\n            if template_value:\n                # Ensure custom_fields is properly initialized\n                if \"custom_fields\" not in build_config:\n                    build_config[\"custom_fields\"] = {}\n\n                # Clean up fields from the OLD mode before processing with NEW mode\n                # This ensures we don't keep fields with wrong syntax even if validation fails\n                old_custom_fields = build_config[\"custom_fields\"].get(\"template\", [])\n                for old_field in list(old_custom_fields):\n                    # Remove the field from custom_fields and template\n                    if old_field in old_custom_fields:\n                        old_custom_fields.remove(old_field)\n                    build_config.pop(old_field, None)\n\n                # Try to process template with new mode to add new variables\n                # If validation fails, at least we cleaned up old fields\n                try:\n                    # Validate mustache templates for security\n                    if is_mustache:\n                        validate_mustache_template(template_value)\n\n                    # Re-process template with new mode to add new variables\n                    _ = process_prompt_template(\n                        template=template_value,\n                        name=\"template\",\n                        custom_fields=build_config[\"custom_fields\"],\n                        frontend_node_template=build_config,\n                        is_mustache=is_mustache,\n                    )\n                except ValueError as e:\n                    # If validation fails, we still updated the mode and cleaned old fields\n                    # User will see error when they try to save\n                    logger.debug(\"Template validation failed during mode switch\", exc_info=e)\n        return build_config\n\n    async def build_prompt(self) -> Message:\n        use_double_brackets = self.use_double_brackets if hasattr(self, \"use_double_brackets\") else False\n        template_format = \"mustache\" if use_double_brackets else \"f-string\"\n        prompt = await Message.from_template_and_variables(template_format=template_format, **self._attributes)\n        self.status = prompt.text\n        return prompt\n\n    def _update_template(self, frontend_node: dict):\n        prompt_template = frontend_node[\"template\"][\"template\"][\"value\"]\n        use_double_brackets = frontend_node[\"template\"].get(\"use_double_brackets\", {}).get(\"value\", False)\n        is_mustache = use_double_brackets is True\n\n        try:\n            # Validate mustache templates for security\n            if is_mustache:\n                validate_mustache_template(prompt_template)\n\n            custom_fields = frontend_node[\"custom_fields\"]\n            frontend_node_template = frontend_node[\"template\"]\n            _ = process_prompt_template(\n                template=prompt_template,\n                name=\"template\",\n                custom_fields=custom_fields,\n                frontend_node_template=frontend_node_template,\n                is_mustache=is_mustache,\n            )\n        except ValueError as e:\n            # If validation fails, don't add variables but allow component to be created\n            logger.debug(\"Template validation failed in _update_template\", exc_info=e)\n        return frontend_node\n\n    async def update_frontend_node(self, new_frontend_node: dict, current_frontend_node: dict):\n        \"\"\"This function is called after the code validation is done.\"\"\"\n        frontend_node = await super().update_frontend_node(new_frontend_node, current_frontend_node)\n        template = frontend_node[\"template\"][\"template\"][\"value\"]\n        use_double_brackets = frontend_node[\"template\"].get(\"use_double_brackets\", {}).get(\"value\", False)\n        is_mustache = use_double_brackets is True\n\n        try:\n            # Validate mustache templates for security\n            if is_mustache:\n                validate_mustache_template(template)\n\n            # Kept it duplicated for backwards compatibility\n            _ = process_prompt_template(\n                template=template,\n                name=\"template\",\n                custom_fields=frontend_node[\"custom_fields\"],\n                frontend_node_template=frontend_node[\"template\"],\n                is_mustache=is_mustache,\n            )\n        except ValueError as e:\n            # If validation fails, don't add variables but allow component to be updated\n            logger.debug(\"Template validation failed in update_frontend_node\", exc_info=e)\n        # Now that template is updated, we need to grab any values that were set in the current_frontend_node\n        # and update the frontend_node with those values\n        update_template_values(new_template=frontend_node, previous_template=current_frontend_node[\"template\"])\n        return frontend_node\n\n    def _get_fallback_input(self, **kwargs):\n        return DefaultPromptField(**kwargs)\n"
+              },
+              "context": {
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "context",
+                "dynamic": false,
+                "field_type": "str",
+                "fileTypes": [],
+                "file_path": "",
+                "info": "",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "load_from_db": false,
+                "multiline": true,
+                "name": "context",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": "RocketShip Strategy: Prioritize platform reliability, speed-to-insight, and fixing critical dashboard bugs over launching new features."
+              },
+              "request": {
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "request",
+                "dynamic": false,
+                "field_type": "str",
+                "fileTypes": [],
+                "file_path": "",
+                "info": "",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "load_from_db": false,
+                "multiline": true,
+                "name": "request",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "template": {
+                "_input_type": "PromptInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Template",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "template",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "track_in_telemetry": false,
+                "type": "prompt",
+                "value": "Context: {context} \\n\\n Request: {request}"
+              },
+              "tool_placeholder": {
+                "_input_type": "MessageTextInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Tool Placeholder",
+                "dynamic": false,
+                "info": "A placeholder input for tool mode.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "tool_placeholder",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": false,
+                "title_case": false,
+                "tool_mode": true,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "use_double_brackets": {
+                "_input_type": "BoolInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Use Double Brackets",
+                "dynamic": false,
+                "info": "Use {{variable}} syntax instead of {variable}.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "use_double_brackets",
+                "override_skip": false,
+                "placeholder": "",
+                "real_time_refresh": true,
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "bool",
+                "value": false
+              }
+            },
+            "tool_mode": false
+          },
+          "showNode": true,
+          "type": "Prompt Template"
+        },
+        "dragging": false,
+        "id": "Prompt Template-gxOlN",
+        "measured": {
+          "height": 393,
+          "width": 320
+        },
+        "position": {
+          "x": 110.56393441279815,
+          "y": -192.32811908917662
+        },
+        "selected": false,
+        "type": "genericNode"
+      },
+      {
+        "data": {
+          "id": "ParserComponent-u9g0v",
+          "node": {
+            "base_classes": [
+              "Message"
+            ],
+            "beta": false,
+            "conditional_paths": [],
+            "custom_fields": {},
+            "description": "Extracts text using a template.",
+            "display_name": "Parser",
+            "documentation": "https://docs.langflow.org/parser",
+            "edited": false,
+            "field_order": [
+              "input_data",
+              "mode",
+              "pattern",
+              "sep"
+            ],
+            "frozen": false,
+            "icon": "braces",
+            "legacy": false,
+            "metadata": {
+              "code_hash": "7ab5fd0e0a10",
+              "dependencies": {
+                "dependencies": [
+                  {
+                    "name": "lfx",
+                    "version": null
+                  }
+                ],
+                "total_dependencies": 1
+              },
+              "module": "lfx.components.processing.parser.ParserComponent"
+            },
+            "minimized": false,
+            "output_types": [],
+            "outputs": [
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "Parsed Text",
+                "group_outputs": false,
+                "method": "parse_combined_text",
+                "name": "parsed_text",
+                "selected": "Message",
+                "tool_mode": true,
+                "types": [
+                  "Message"
+                ],
+                "value": "__UNDEFINED__"
+              }
+            ],
+            "pinned": false,
+            "template": {
+              "_type": "Component",
+              "code": {
+                "advanced": true,
+                "api_editable": false,
+                "dynamic": true,
+                "fileTypes": [],
+                "file_path": "",
+                "info": "",
+                "list": false,
+                "load_from_db": false,
+                "multiline": true,
+                "name": "code",
+                "password": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "type": "code",
+                "value": "from lfx.custom.custom_component.component import Component\nfrom lfx.helpers.data import safe_convert\nfrom lfx.inputs.inputs import BoolInput, HandleInput, MessageTextInput, MultilineInput, TabInput\nfrom lfx.schema.data import Data\nfrom lfx.schema.dataframe import DataFrame\nfrom lfx.schema.message import Message\nfrom lfx.template.field.base import Output\n\n\nclass _DefaultDict(dict):\n    def __init__(self, data_item: Data):\n        super().__init__(data_item.data)\n        self.default_value = data_item.default_value\n\n    def __missing__(self, key):\n        return self.default_value if self.default_value is not None else \"\"\n\n\nclass ParserComponent(Component):\n    display_name = \"Parser\"\n    description = \"Extracts text using a template.\"\n    documentation: str = \"https://docs.langflow.org/parser\"\n    icon = \"braces\"\n\n    inputs = [\n        HandleInput(\n            name=\"input_data\",\n            display_name=\"JSON or Table\",\n            input_types=[\"DataFrame\", \"Table\", \"Data\", \"JSON\"],\n            info=\"Accepts a DataFrame, a Data object, or a list of Data objects.\",\n            required=True,\n        ),\n        TabInput(\n            name=\"mode\",\n            display_name=\"Mode\",\n            options=[\"Parser\", \"Stringify\"],\n            value=\"Parser\",\n            info=\"Convert into raw string instead of using a template.\",\n            real_time_refresh=True,\n        ),\n        MultilineInput(\n            name=\"pattern\",\n            display_name=\"Template\",\n            info=(\n                \"Use variables within curly brackets to extract column values for DataFrames \"\n                \"or key values for Data.\"\n                \"For example: `Name: {Name}, Age: {Age}, Country: {Country}`\"\n            ),\n            value=\"Text: {text}\",  # Example default\n            dynamic=True,\n            show=True,\n            required=True,\n        ),\n        MessageTextInput(\n            name=\"sep\",\n            display_name=\"Separator\",\n            advanced=True,\n            value=\"\\n\",\n            info=\"String used to separate rows/items.\",\n        ),\n    ]\n\n    outputs = [\n        Output(\n            display_name=\"Parsed Text\",\n            name=\"parsed_text\",\n            info=\"Formatted text output.\",\n            method=\"parse_combined_text\",\n        ),\n    ]\n\n    def update_build_config(self, build_config, field_value, field_name=None):\n        \"\"\"Dynamically hide/show `template` and enforce requirement based on `stringify`.\"\"\"\n        if field_name == \"mode\":\n            build_config[\"pattern\"][\"show\"] = self.mode == \"Parser\"\n            build_config[\"pattern\"][\"required\"] = self.mode == \"Parser\"\n            if field_value:\n                clean_data = BoolInput(\n                    name=\"clean_data\",\n                    display_name=\"Clean Data\",\n                    info=(\n                        \"Enable to clean the data by removing empty rows and lines \"\n                        \"in each cell of the DataFrame/ Data object.\"\n                    ),\n                    value=True,\n                    advanced=True,\n                    required=False,\n                )\n                build_config[\"clean_data\"] = clean_data.to_dict()\n            else:\n                build_config.pop(\"clean_data\", None)\n\n        return build_config\n\n    def _clean_args(self) -> tuple[DataFrame | None, Data | list[Data] | None]:\n        \"\"\"Prepare arguments based on input type.\"\"\"\n        input_data = self.input_data\n\n        match input_data:\n            case list() if all(isinstance(item, Data) for item in input_data):\n                return None, input_data\n            case DataFrame():\n                return input_data, None\n            case Data():\n                return None, input_data\n            case dict() if \"data\" in input_data:\n                try:\n                    if \"columns\" in input_data:  # Likely a DataFrame\n                        return DataFrame.from_dict(input_data), None\n                    # Likely a Data object\n                    return None, Data(**input_data)\n                except (TypeError, ValueError, KeyError) as e:\n                    msg = f\"Invalid structured input provided: {e!s}\"\n                    raise ValueError(msg) from e\n            case _:\n                msg = f\"Unsupported input type: {type(input_data)}. Expected DataFrame, Data, or list[Data].\"\n                raise ValueError(msg)\n\n    def parse_combined_text(self) -> Message:\n        \"\"\"Parse all rows/items into a single text or convert input to string if `stringify` is enabled.\"\"\"\n        # Early return for stringify option\n        if self.mode == \"Stringify\":\n            return self.convert_to_string()\n\n        df, data = self._clean_args()\n\n        lines = []\n        if df is not None:\n            for _, row in df.iterrows():\n                formatted_text = self.pattern.format(**row.to_dict())\n                lines.append(formatted_text)\n        elif data is not None:\n            data_items = data if isinstance(data, list) else [data]\n            for data_item in data_items:\n                formatted_text = self.pattern.format_map(_DefaultDict(data_item))\n                lines.append(formatted_text)\n\n        combined_text = self.sep.join(lines)\n        self.status = combined_text\n        return Message(text=combined_text)\n\n    def convert_to_string(self) -> Message:\n        \"\"\"Convert input data to string with proper error handling.\"\"\"\n        clean_data = getattr(self, \"clean_data\", False)\n        if isinstance(self.input_data, list):\n            result = \"\\n\".join(safe_convert(item, clean_data=clean_data) for item in self.input_data)\n        else:\n            result = safe_convert(self.input_data, clean_data=clean_data)\n        self.log(f\"Converted to string with length: {len(result)}\")\n\n        message = Message(text=result)\n        self.status = message\n        return message\n"
+              },
+              "input_data": {
+                "_input_type": "HandleInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "JSON or Table",
+                "dynamic": false,
+                "info": "Accepts a DataFrame, a Data object, or a list of Data objects.",
+                "input_types": [
+                  "DataFrame",
+                  "Table",
+                  "Data",
+                  "JSON"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "input_data",
+                "override_skip": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "other",
+                "value": ""
+              },
+              "mode": {
+                "_input_type": "TabInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Mode",
+                "dynamic": false,
+                "info": "Convert into raw string instead of using a template.",
+                "name": "mode",
+                "options": [
+                  "Parser",
+                  "Stringify"
+                ],
+                "override_skip": false,
+                "placeholder": "",
+                "real_time_refresh": true,
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "tab",
+                "value": "Parser"
+              },
+              "pattern": {
+                "_input_type": "MultilineInput",
+                "advanced": false,
+                "ai_enabled": false,
+                "api_editable": false,
+                "copy_field": false,
+                "display_name": "Template",
+                "dynamic": true,
+                "info": "Use variables within curly brackets to extract column values for DataFrames or key values for Data.For example: `Name: {Name}, Age: {Age}, Country: {Country}`",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "multiline": true,
+                "name": "pattern",
+                "override_skip": false,
+                "password": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": "Text: {text}"
+              },
+              "sep": {
+                "_input_type": "MessageTextInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Separator",
+                "dynamic": false,
+                "info": "String used to separate rows/items.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "sep",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": "\n"
+              }
+            },
+            "tool_mode": false
+          },
+          "showNode": true,
+          "type": "ParserComponent"
+        },
+        "dragging": false,
+        "id": "ParserComponent-u9g0v",
+        "measured": {
+          "height": 331,
+          "width": 320
+        },
+        "position": {
+          "x": -391.1888824253102,
+          "y": -277.6862973048884
+        },
+        "selected": false,
+        "type": "genericNode"
+      },
+      {
+        "data": {
+          "id": "ConditionalRouter-9lEXC",
+          "node": {
+            "base_classes": [
+              "Message"
+            ],
+            "beta": false,
+            "conditional_paths": [],
+            "custom_fields": {},
+            "description": "Routes an input message to a corresponding output based on text comparison.",
+            "display_name": "If-Else",
+            "documentation": "https://docs.langflow.org/if-else",
+            "edited": false,
+            "field_order": [
+              "input_text",
+              "operator",
+              "match_text",
+              "case_sensitive",
+              "true_case_message",
+              "false_case_message",
+              "max_iterations",
+              "default_route"
+            ],
+            "frozen": false,
+            "icon": "split",
+            "last_updated": "2026-09-20T05:29:02.181Z",
+            "legacy": false,
+            "lf_version": "1.12.0",
+            "metadata": {
+              "code_hash": "1d14fd882a0a",
+              "dependencies": {
+                "dependencies": [
+                  {
+                    "name": "lfx",
+                    "version": null
+                  }
+                ],
+                "total_dependencies": 1
+              },
+              "module": "lfx.components.flow_controls.conditional_router.ConditionalRouterComponent"
+            },
+            "minimized": false,
+            "output_types": [],
+            "outputs": [
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "True",
+                "group_outputs": true,
+                "loop_types": null,
+                "method": "true_response",
+                "name": "true_result",
+                "options": null,
+                "required_inputs": null,
+                "selected": "Message",
+                "tool_mode": true,
+                "types": [
+                  "Message"
+                ],
+                "value": "__UNDEFINED__"
+              },
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "False",
+                "group_outputs": true,
+                "loop_types": null,
+                "method": "false_response",
+                "name": "false_result",
+                "options": null,
+                "required_inputs": null,
+                "selected": "Message",
+                "tool_mode": true,
+                "types": [
+                  "Message"
+                ],
+                "value": "__UNDEFINED__"
+              }
+            ],
+            "pinned": false,
+            "template": {
+              "_frontend_node_flow_id": {
+                "value": "5db4e37d-35dc-422f-af4c-7559e126b20e"
+              },
+              "_frontend_node_folder_id": {
+                "value": "dc4ba893-4afa-4a6f-ae33-0d0c0087d1f4"
+              },
+              "_type": "Component",
+              "case_sensitive": {
+                "_input_type": "BoolInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Case Sensitive",
+                "dynamic": false,
+                "info": "If true, the comparison will be case sensitive.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "case_sensitive",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "bool",
+                "value": true
+              },
+              "code": {
+                "advanced": true,
+                "api_editable": false,
+                "dynamic": true,
+                "fileTypes": [],
+                "file_path": "",
+                "info": "",
+                "list": false,
+                "load_from_db": false,
+                "multiline": true,
+                "name": "code",
+                "password": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "type": "code",
+                "value": "import re\n\nfrom lfx.custom.custom_component.component import Component\nfrom lfx.io import BoolInput, DropdownInput, IntInput, MessageInput, MessageTextInput, Output\nfrom lfx.schema.message import Message\n\n\nclass ConditionalRouterComponent(Component):\n    display_name = \"If-Else\"\n    description = \"Routes an input message to a corresponding output based on text comparison.\"\n    documentation: str = \"https://docs.langflow.org/if-else\"\n    icon = \"split\"\n    name = \"ConditionalRouter\"\n\n    def __init__(self, *args, **kwargs):\n        super().__init__(*args, **kwargs)\n        self.__iteration_updated = False\n\n    inputs = [\n        MessageTextInput(\n            name=\"input_text\",\n            display_name=\"Text Input\",\n            info=\"The primary text input for the operation.\",\n            required=True,\n        ),\n        DropdownInput(\n            name=\"operator\",\n            display_name=\"Operator\",\n            options=[\n                \"equals\",\n                \"not equals\",\n                \"contains\",\n                \"starts with\",\n                \"ends with\",\n                \"regex\",\n                \"less than\",\n                \"less than or equal\",\n                \"greater than\",\n                \"greater than or equal\",\n            ],\n            info=\"The operator to apply for comparing the texts.\",\n            value=\"equals\",\n            real_time_refresh=True,\n        ),\n        MessageTextInput(\n            name=\"match_text\",\n            display_name=\"Match Text\",\n            info=\"The text input to compare against.\",\n            required=True,\n        ),\n        BoolInput(\n            name=\"case_sensitive\",\n            display_name=\"Case Sensitive\",\n            info=\"If true, the comparison will be case sensitive.\",\n            value=True,\n            advanced=True,\n        ),\n        MessageInput(\n            name=\"true_case_message\",\n            display_name=\"Case True\",\n            info=\"The message to pass if the condition is True.\",\n            advanced=True,\n        ),\n        MessageInput(\n            name=\"false_case_message\",\n            display_name=\"Case False\",\n            info=\"The message to pass if the condition is False.\",\n            advanced=True,\n        ),\n        IntInput(\n            name=\"max_iterations\",\n            display_name=\"Max Iterations\",\n            info=\"The maximum number of iterations for the conditional router.\",\n            value=10,\n            advanced=True,\n        ),\n        DropdownInput(\n            name=\"default_route\",\n            display_name=\"Default Route\",\n            options=[\"true_result\", \"false_result\"],\n            info=\"The default route to take when max iterations are reached.\",\n            value=\"false_result\",\n            advanced=True,\n        ),\n    ]\n\n    outputs = [\n        Output(display_name=\"True\", name=\"true_result\", method=\"true_response\", group_outputs=True),\n        Output(display_name=\"False\", name=\"false_result\", method=\"false_response\", group_outputs=True),\n    ]\n\n    def _pre_run_setup(self):\n        self.__iteration_updated = False\n\n    def evaluate_condition(self, input_text: str, match_text: str, operator: str, *, case_sensitive: bool) -> bool:\n        if not case_sensitive and operator != \"regex\":\n            input_text = input_text.lower()\n            match_text = match_text.lower()\n\n        if operator == \"equals\":\n            return input_text == match_text\n        if operator == \"not equals\":\n            return input_text != match_text\n        if operator == \"contains\":\n            return match_text in input_text\n        if operator == \"starts with\":\n            return input_text.startswith(match_text)\n        if operator == \"ends with\":\n            return input_text.endswith(match_text)\n        if operator == \"regex\":\n            try:\n                return bool(re.match(match_text, input_text))\n            except re.error:\n                return False  # Return False if the regex is invalid\n        if operator in [\"less than\", \"less than or equal\", \"greater than\", \"greater than or equal\"]:\n            try:\n                input_num = float(input_text)\n                match_num = float(match_text)\n                if operator == \"less than\":\n                    return input_num < match_num\n                if operator == \"less than or equal\":\n                    return input_num <= match_num\n                if operator == \"greater than\":\n                    return input_num > match_num\n                if operator == \"greater than or equal\":\n                    return input_num >= match_num\n            except ValueError:\n                return False  # Invalid number format for comparison\n        return False\n\n    def iterate_and_stop_once(self, route_to_stop: str):\n        \"\"\"Handles cycle iteration counting and branch exclusion.\n\n        Uses two complementary mechanisms:\n        1. stop() - ACTIVE/INACTIVE state for cycle management (gets reset each iteration)\n        2. exclude_branch_conditionally() - Persistent exclusion for conditional routing\n\n        When max_iterations is reached, breaks the cycle by allowing the default_route to execute.\n        \"\"\"\n        if not self.__iteration_updated:\n            self.update_ctx({f\"{self._id}_iteration\": self.ctx.get(f\"{self._id}_iteration\", 0) + 1})\n            self.__iteration_updated = True\n            current_iteration = self.ctx.get(f\"{self._id}_iteration\", 0)\n\n            # Check if max iterations reached and we're trying to stop the default route\n            if current_iteration >= self.max_iterations and route_to_stop == self.default_route:\n                # Clear ALL conditional exclusions to allow default route to execute\n                if self._id in self.graph.conditional_exclusion_sources:\n                    previous_exclusions = self.graph.conditional_exclusion_sources[self._id]\n                    self.graph.conditionally_excluded_vertices -= previous_exclusions\n                    del self.graph.conditional_exclusion_sources[self._id]\n\n                # Switch which route to stop - stop the NON-default route to break the cycle\n                route_to_stop = \"true_result\" if route_to_stop == \"false_result\" else \"false_result\"\n\n                # Call stop to break the cycle\n                self.stop(route_to_stop)\n                # Don't apply conditional exclusion when breaking cycle\n                return\n\n            # Normal case: Use BOTH mechanisms\n            # 1. stop() for cycle management (marks INACTIVE, updates run manager, gets reset)\n            self.stop(route_to_stop)\n\n            # 2. Conditional exclusion for persistent routing (doesn't get reset except by this router)\n            self.graph.exclude_branch_conditionally(self._id, output_name=route_to_stop)\n\n    def _resolve_case_message(self, case_message: Message | str | None) -> Message:\n        \"\"\"Return the override case message, falling back to the input text when it is blank.\n\n        ``Case True`` and ``Case False`` are optional overrides. When left blank the\n        ``MessageInput`` resolves to an empty ``Message``, so the original ``Text Input``\n        is routed through instead of an empty message.\n\n        A ``Message`` is only treated as blank when it carries no payload at all. An\n        override with empty text but meaningful content (files or content blocks) is\n        preserved as-is so that payload is not dropped.\n\n        Blankness is judged by payload only (``text``, ``files``, ``content_blocks``).\n        A ``Message`` carrying just metadata (``sender``, ``properties``, ``error`` ...)\n        and no payload is intentionally treated as blank: every empty ``Message`` also\n        defaults ``timestamp`` / ``category`` / ``properties``, so keying on metadata\n        would defeat the blank-field fallback. With no payload there is nothing to\n        route, so the ``Text Input`` is used.\n\n        ``case_message`` is typed defensively as ``Message | str | None``. ``MessageInput``\n        wraps user input into a ``Message`` on the validated graph path, but a raw ``str``\n        can still arrive via direct/programmatic assignment (``.set(...)`` stores the raw\n        value), so the ``str`` branch is retained rather than dropping such an override.\n        \"\"\"\n        if isinstance(case_message, Message):\n            if case_message.text or case_message.files or case_message.content_blocks:\n                return case_message\n            return Message(text=self.input_text)\n        if isinstance(case_message, str) and case_message:\n            return Message(text=case_message)\n        return Message(text=self.input_text)\n\n    def true_response(self) -> Message:\n        result = self.evaluate_condition(\n            self.input_text, self.match_text, self.operator, case_sensitive=self.case_sensitive\n        )\n\n        # Check if we should force output due to max_iterations on default route\n        current_iteration = self.ctx.get(f\"{self._id}_iteration\", 0)\n        force_output = current_iteration >= self.max_iterations and self.default_route == \"true_result\"\n\n        if result or force_output:\n            true_message = self._resolve_case_message(self.true_case_message)\n            self.status = true_message\n            if not force_output:  # Only stop the other branch if not forcing due to max iterations\n                self.iterate_and_stop_once(\"false_result\")\n            return true_message\n        self.iterate_and_stop_once(\"true_result\")\n        return Message(text=\"\")\n\n    def false_response(self) -> Message:\n        result = self.evaluate_condition(\n            self.input_text, self.match_text, self.operator, case_sensitive=self.case_sensitive\n        )\n\n        if not result:\n            false_message = self._resolve_case_message(self.false_case_message)\n            self.status = false_message\n            self.iterate_and_stop_once(\"true_result\")\n            return false_message\n\n        self.iterate_and_stop_once(\"false_result\")\n        return Message(text=\"\")\n\n    def update_build_config(self, build_config: dict, field_value: str, field_name: str | None = None) -> dict:\n        if field_name == \"operator\":\n            if field_value == \"regex\":\n                build_config.pop(\"case_sensitive\", None)\n            elif \"case_sensitive\" not in build_config:\n                case_sensitive_input = next(\n                    (input_field for input_field in self.inputs if input_field.name == \"case_sensitive\"), None\n                )\n                if case_sensitive_input:\n                    build_config[\"case_sensitive\"] = case_sensitive_input.to_dict()\n        return build_config\n"
+              },
+              "default_route": {
+                "_input_type": "DropdownInput",
+                "advanced": true,
+                "api_editable": false,
+                "combobox": false,
+                "dialog_inputs": {},
+                "display_name": "Default Route",
+                "dynamic": false,
+                "external_options": {},
+                "info": "The default route to take when max iterations are reached.",
+                "name": "default_route",
+                "options": [
+                  "true_result",
+                  "false_result"
+                ],
+                "options_metadata": [],
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "toggle": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "str",
+                "value": "false_result"
+              },
+              "false_case_message": {
+                "_input_type": "MessageInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Case False",
+                "dynamic": false,
+                "info": "The message to pass if the condition is False.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "false_case_message",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "input_text": {
+                "_input_type": "MessageTextInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Text Input",
+                "dynamic": false,
+                "info": "The primary text input for the operation.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "input_text",
+                "override_skip": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "is_refresh": false,
+              "match_text": {
+                "_input_type": "MessageTextInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Match Text",
+                "dynamic": false,
+                "info": "The text input to compare against.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "match_text",
+                "override_skip": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": "STATUS_APPROVED"
+              },
+              "max_iterations": {
+                "_input_type": "IntInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Max Iterations",
+                "dynamic": false,
+                "info": "The maximum number of iterations for the conditional router.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "max_iterations",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "int",
+                "value": 10
+              },
+              "operator": {
+                "_input_type": "DropdownInput",
+                "advanced": false,
+                "api_editable": false,
+                "combobox": false,
+                "dialog_inputs": {},
+                "display_name": "Operator",
+                "dynamic": false,
+                "external_options": {},
+                "info": "The operator to apply for comparing the texts.",
+                "name": "operator",
+                "options": [
+                  "equals",
+                  "not equals",
+                  "contains",
+                  "starts with",
+                  "ends with",
+                  "regex",
+                  "less than",
+                  "less than or equal",
+                  "greater than",
+                  "greater than or equal"
+                ],
+                "options_metadata": [],
+                "override_skip": false,
+                "placeholder": "",
+                "real_time_refresh": true,
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "toggle": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "str",
+                "value": "contains"
+              },
+              "true_case_message": {
+                "_input_type": "MessageInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Case True",
+                "dynamic": false,
+                "info": "The message to pass if the condition is True.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "true_case_message",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              }
+            },
+            "tool_mode": false
+          },
+          "showNode": true,
+          "type": "ConditionalRouter"
+        },
+        "dragging": false,
+        "id": "ConditionalRouter-9lEXC",
+        "measured": {
+          "height": 431,
+          "width": 320
+        },
+        "position": {
+          "x": 1493.7687001663915,
+          "y": 576.7274683683911
+        },
+        "selected": false,
+        "type": "genericNode"
+      },
+      {
+        "data": {
+          "id": "ext:huggingface:HuggingFaceInferenceAPIEmbeddingsComponent@official-prAb6",
+          "node": {
+            "base_classes": [
+              "Embeddings"
+            ],
+            "beta": false,
+            "bundle": "huggingface",
+            "conditional_paths": [],
+            "custom_fields": {},
+            "description": "Generate embeddings using Hugging Face Text Embeddings Inference (TEI)",
+            "display_name": "Hugging Face Embeddings Inference",
+            "documentation": "https://huggingface.co/docs/text-embeddings-inference/index",
+            "edited": false,
+            "extension": "lfx-bundles",
+            "extension_version": "1.1.18",
+            "field_order": [
+              "api_key",
+              "inference_endpoint",
+              "model_name"
+            ],
+            "frozen": false,
+            "icon": "HuggingFace",
+            "legacy": false,
+            "metadata": {
+              "code_hash": "721a96036a36",
+              "dependencies": {
+                "dependencies": [
+                  {
+                    "name": "httpx",
+                    "version": "0.28.1"
+                  },
+                  {
+                    "name": "langchain_community",
+                    "version": "0.4.2"
+                  },
+                  {
+                    "name": "lfx",
+                    "version": "1.12.0"
+                  },
+                  {
+                    "name": "pydantic",
+                    "version": "2.13.4"
+                  },
+                  {
+                    "name": "tenacity",
+                    "version": "8.5.0"
+                  }
+                ],
+                "total_dependencies": 5
+              },
+              "model_provider_display_name": "Huggingface",
+              "model_provider_id": "huggingface",
+              "model_provider_policy_mode": "standalone",
+              "module": "_lfx_ext.official.huggingface.huggingface_inference_api"
+            },
+            "minimized": false,
+            "name": "HuggingFaceInferenceAPIEmbeddings",
+            "namespaced_id": "ext:huggingface:HuggingFaceInferenceAPIEmbeddingsComponent@official",
+            "output_types": [],
+            "outputs": [
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "Embeddings",
+                "group_outputs": false,
+                "method": "build_embeddings",
+                "name": "embeddings",
+                "selected": "Embeddings",
+                "tool_mode": true,
+                "types": [
+                  "Embeddings"
+                ],
+                "value": "__UNDEFINED__"
+              }
+            ],
+            "pinned": false,
+            "template": {
+              "_type": "Component",
+              "api_key": {
+                "_input_type": "SecretStrInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "HuggingFace API Key",
+                "dynamic": false,
+                "info": "Required for non-local inference endpoints. Local inference does not require an API Key.",
+                "input_types": [],
+                "load_from_db": false,
+                "name": "api_key",
+                "override_skip": false,
+                "password": true,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "code": {
+                "advanced": true,
+                "api_editable": false,
+                "dynamic": true,
+                "fileTypes": [],
+                "file_path": "",
+                "info": "",
+                "list": false,
+                "load_from_db": false,
+                "multiline": true,
+                "name": "code",
+                "password": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "type": "code",
+                "value": "from urllib.parse import urlparse\n\nimport httpx\nfrom langchain_community.embeddings.huggingface import HuggingFaceInferenceAPIEmbeddings\nfrom lfx.base.embeddings.model import LCEmbeddingsModel\nfrom lfx.field_typing import Embeddings\nfrom lfx.io import MessageTextInput, Output, SecretStrInput\nfrom lfx.utils.ssrf_httpx import ssrf_safe_httpx_get, validate_url_for_ssrf_or_raise\n\n# Next update: use langchain_huggingface\nfrom pydantic import SecretStr\nfrom tenacity import retry, stop_after_attempt, wait_fixed\n\n\nclass HuggingFaceInferenceAPIEmbeddingsComponent(LCEmbeddingsModel):\n    display_name = \"Hugging Face Embeddings Inference\"\n    description = \"Generate embeddings using Hugging Face Text Embeddings Inference (TEI)\"\n    documentation = \"https://huggingface.co/docs/text-embeddings-inference/index\"\n    icon = \"HuggingFace\"\n    name = \"HuggingFaceInferenceAPIEmbeddings\"\n\n    inputs = [\n        SecretStrInput(\n            name=\"api_key\",\n            display_name=\"HuggingFace API Key\",\n            advanced=False,\n            info=\"Required for non-local inference endpoints. Local inference does not require an API Key.\",\n        ),\n        MessageTextInput(\n            name=\"inference_endpoint\",\n            display_name=\"Inference Endpoint\",\n            required=True,\n            value=\"https://api-inference.huggingface.co/models/\",\n            info=\"Custom inference endpoint URL.\",\n        ),\n        MessageTextInput(\n            name=\"model_name\",\n            display_name=\"Model Name\",\n            value=\"BAAI/bge-large-en-v1.5\",\n            info=\"The name of the model to use for text embeddings.\",\n            required=True,\n        ),\n    ]\n\n    outputs = [\n        Output(display_name=\"Embeddings\", name=\"embeddings\", method=\"build_embeddings\"),\n    ]\n\n    def validate_inference_endpoint(self, inference_endpoint: str) -> bool:\n        parsed_url = urlparse(inference_endpoint)\n        if not all([parsed_url.scheme, parsed_url.netloc]):\n            msg = (\n                f\"Invalid inference endpoint format: '{self.inference_endpoint}'. \"\n                \"Please ensure the URL includes both a scheme (e.g., 'http://' or 'https://') and a domain name. \"\n                \"Example: 'http://localhost:8080' or 'https://api.example.com'\"\n            )\n            raise ValueError(msg)\n\n        try:\n            response = ssrf_safe_httpx_get(f\"{inference_endpoint}/health\", timeout=5)\n        except httpx.HTTPError as e:\n            msg = (\n                f\"Inference endpoint '{inference_endpoint}' is not responding. \"\n                \"Please ensure the URL is correct and the service is running.\"\n            )\n            raise ValueError(msg) from e\n\n        if response.status_code != httpx.codes.OK:\n            msg = f\"Hugging Face health check failed: {response.status_code}\"\n            raise ValueError(msg)\n        # returning True to solve linting error\n        return True\n\n    def get_api_url(self) -> str:\n        if \"huggingface\" in self.inference_endpoint.lower():\n            return f\"{self.inference_endpoint}\"\n        return self.inference_endpoint\n\n    @retry(stop=stop_after_attempt(3), wait=wait_fixed(2))\n    def create_huggingface_embeddings(\n        self, api_key: SecretStr, api_url: str, model_name: str\n    ) -> HuggingFaceInferenceAPIEmbeddings:\n        return HuggingFaceInferenceAPIEmbeddings(api_key=api_key, api_url=api_url, model_name=model_name)\n\n    def build_embeddings(self) -> Embeddings:\n        api_url = self.get_api_url()\n        validate_url_for_ssrf_or_raise(api_url)\n\n        is_local_url = (\n            api_url.startswith((\"http://localhost\", \"http://127.0.0.1\", \"http://0.0.0.0\", \"http://docker\"))\n            or \"huggingface.co\" not in api_url.lower()\n        )\n\n        if not self.api_key and is_local_url:\n            self.validate_inference_endpoint(api_url)\n            api_key = SecretStr(\"APIKeyForLocalDeployment\")\n        elif not self.api_key:\n            msg = \"API Key is required for non-local inference endpoints\"\n            raise ValueError(msg)\n        else:\n            api_key = SecretStr(self.api_key).get_secret_value()\n\n        try:\n            return self.create_huggingface_embeddings(api_key, api_url, self.model_name)\n        except Exception as e:\n            msg = \"Could not connect to Hugging Face Inference API.\"\n            raise ValueError(msg) from e\n"
+              },
+              "inference_endpoint": {
+                "_input_type": "MessageTextInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Inference Endpoint",
+                "dynamic": false,
+                "info": "Custom inference endpoint URL.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "inference_endpoint",
+                "override_skip": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": "https://api-inference.huggingface.co/models/"
+              },
+              "model_name": {
+                "_input_type": "MessageTextInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Model Name",
+                "dynamic": false,
+                "info": "The name of the model to use for text embeddings.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "model_name",
+                "override_skip": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": "BAAI/bge-large-en-v1.5"
+              }
+            },
+            "tool_mode": false
+          },
+          "showNode": true,
+          "type": "ext:huggingface:HuggingFaceInferenceAPIEmbeddingsComponent@official"
+        },
+        "dragging": false,
+        "id": "ext:huggingface:HuggingFaceInferenceAPIEmbeddingsComponent@official-prAb6",
+        "measured": {
+          "height": 387,
+          "width": 320
+        },
+        "position": {
+          "x": -1523.6731477732906,
+          "y": -253.31520398907472
+        },
+        "selected": false,
+        "type": "genericNode"
+      },
+      {
+        "data": {
+          "id": "ChatOutput-NHELz",
+          "node": {
+            "base_classes": [
+              "Message"
+            ],
+            "beta": false,
+            "conditional_paths": [],
+            "custom_fields": {},
+            "description": "Display a chat message in the Playground.",
+            "display_name": "Chat Output",
+            "documentation": "https://docs.langflow.org/chat-input-and-output",
+            "edited": false,
+            "field_order": [
+              "input_value",
+              "should_store_message",
+              "sender",
+              "sender_name",
+              "session_id",
+              "context_id",
+              "data_template",
+              "clean_data"
+            ],
+            "frozen": false,
+            "icon": "MessagesSquare",
+            "legacy": false,
+            "lf_version": "1.12.0",
+            "metadata": {
+              "code_hash": "84009527d08c",
+              "dependencies": {
+                "dependencies": [
+                  {
+                    "name": "orjson",
+                    "version": "3.11.9"
+                  },
+                  {
+                    "name": "fastapi",
+                    "version": "0.139.2"
+                  },
+                  {
+                    "name": "lfx",
+                    "version": null
+                  }
+                ],
+                "total_dependencies": 3
+              },
+              "module": "lfx.components.input_output.chat_output.ChatOutput"
+            },
+            "minimized": true,
+            "output_types": [],
+            "outputs": [
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "Output Message",
+                "group_outputs": false,
+                "method": "message_response",
+                "name": "message",
+                "selected": "Message",
+                "tool_mode": true,
+                "types": [
+                  "Message"
+                ],
+                "value": "__UNDEFINED__"
+              }
+            ],
+            "pinned": false,
+            "template": {
+              "_type": "Component",
+              "clean_data": {
+                "_input_type": "BoolInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Basic Clean Data",
+                "dynamic": false,
+                "info": "Whether to clean data before converting to string.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "clean_data",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "bool",
+                "value": true
+              },
+              "code": {
+                "advanced": true,
+                "api_editable": false,
+                "dynamic": true,
+                "fileTypes": [],
+                "file_path": "",
+                "info": "",
+                "list": false,
+                "load_from_db": false,
+                "multiline": true,
+                "name": "code",
+                "password": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "type": "code",
+                "value": "from collections.abc import Generator\nfrom typing import Any\n\nimport orjson\nfrom fastapi.encoders import jsonable_encoder\n\nfrom lfx.base.io.chat import ChatComponent\nfrom lfx.helpers.data import safe_convert\nfrom lfx.inputs.inputs import BoolInput, DropdownInput, HandleInput, MessageTextInput\nfrom lfx.schema.data import Data\nfrom lfx.schema.dataframe import DataFrame\nfrom lfx.schema.message import Message\nfrom lfx.schema.properties import Source\nfrom lfx.template.field.base import Output\nfrom lfx.utils.constants import (\n    MESSAGE_SENDER_AI,\n    MESSAGE_SENDER_NAME_AI,\n    MESSAGE_SENDER_USER,\n)\n\n\nclass ChatOutput(ChatComponent):\n    display_name = \"Chat Output\"\n    description = \"Display a chat message in the Playground.\"\n    documentation: str = \"https://docs.langflow.org/chat-input-and-output\"\n    icon = \"MessagesSquare\"\n    name = \"ChatOutput\"\n    minimized = True\n\n    inputs = [\n        HandleInput(\n            name=\"input_value\",\n            display_name=\"Inputs\",\n            info=\"Message to be passed as output.\",\n            input_types=[\"Data\", \"JSON\", \"DataFrame\", \"Table\", \"Message\"],\n            required=True,\n        ),\n        BoolInput(\n            name=\"should_store_message\",\n            display_name=\"Store Messages\",\n            info=\"Store the message in the history.\",\n            value=True,\n            advanced=True,\n        ),\n        DropdownInput(\n            name=\"sender\",\n            display_name=\"Sender Type\",\n            options=[MESSAGE_SENDER_AI, MESSAGE_SENDER_USER],\n            value=MESSAGE_SENDER_AI,\n            advanced=True,\n            info=\"Type of sender.\",\n        ),\n        MessageTextInput(\n            name=\"sender_name\",\n            display_name=\"Sender Name\",\n            info=\"Name of the sender.\",\n            value=MESSAGE_SENDER_NAME_AI,\n            advanced=True,\n        ),\n        MessageTextInput(\n            name=\"session_id\",\n            display_name=\"Session ID\",\n            info=\"The session ID of the chat. If empty, the current session ID parameter will be used.\",\n            advanced=True,\n        ),\n        MessageTextInput(\n            name=\"context_id\",\n            display_name=\"Context ID\",\n            info=\"The context ID of the chat. Adds an extra layer to the local memory.\",\n            value=\"\",\n            advanced=True,\n        ),\n        MessageTextInput(\n            name=\"data_template\",\n            display_name=\"Data Template\",\n            value=\"{text}\",\n            advanced=True,\n            info=\"Template to convert Data to Text. If left empty, it will be dynamically set to the Data's text key.\",\n        ),\n        BoolInput(\n            name=\"clean_data\",\n            display_name=\"Basic Clean Data\",\n            value=True,\n            advanced=True,\n            info=\"Whether to clean data before converting to string.\",\n        ),\n    ]\n    outputs = [\n        Output(\n            display_name=\"Output Message\",\n            name=\"message\",\n            method=\"message_response\",\n        ),\n    ]\n\n    def _build_source(self, id_: str | None, display_name: str | None, source: str | None) -> Source:\n        source_dict = {}\n        if id_:\n            source_dict[\"id\"] = id_\n        if display_name:\n            source_dict[\"display_name\"] = display_name\n        if source:\n            # Handle case where source is a ChatOpenAI object\n            if hasattr(source, \"model_name\"):\n                source_dict[\"source\"] = source.model_name\n            elif hasattr(source, \"model\"):\n                source_dict[\"source\"] = str(source.model)\n            else:\n                source_dict[\"source\"] = str(source)\n        return Source(**source_dict)\n\n    async def message_response(self) -> Message:\n        # First convert the input to string if needed\n        text = self.convert_to_string()\n\n        # Get source properties\n        source, _, display_name, source_id = self.get_properties_from_source_component()\n\n        # Create or use existing Message object\n        if isinstance(self.input_value, Message) and not self.is_connected_to_chat_input():\n            message = self.input_value\n            # Update message properties\n            message.text = text\n            # Preserve existing session_id from the incoming message if it exists\n            existing_session_id = message.session_id\n        else:\n            message = Message(text=text)\n            existing_session_id = None\n\n        # Set message properties\n        message.sender = self.sender\n        message.sender_name = self.sender_name\n        # Preserve session_id from incoming message, or use component/graph session_id\n        message.session_id = (\n            self.session_id or existing_session_id or (self.graph.session_id if hasattr(self, \"graph\") else None) or \"\"\n        )\n        message.context_id = self.context_id\n        message.flow_id = self.graph.flow_id if hasattr(self, \"graph\") else None\n        message.properties.source = self._build_source(source_id, display_name, source)\n\n        # Store message if needed\n        if message.session_id and self.should_store_message:\n            stored_message = await self.send_message(message)\n            self.message.value = stored_message\n            message = stored_message\n\n        # Set accumulated token usage from all upstream LLM vertices.\n        # This must happen AFTER send_message() because streaming captures\n        # usage from chunks and would overwrite accumulated totals.\n        if hasattr(self, \"_vertex\") and self._vertex is not None:\n            accumulated_usage = self._vertex._accumulate_upstream_token_usage()  # noqa: SLF001\n            if accumulated_usage:\n                message.properties.usage = accumulated_usage\n                if self.should_store_message and message.get_id():\n                    message = await self._update_stored_message(message)\n                    await self._send_message_event(message, id_=message.get_id())\n\n        self.status = message\n        return message\n\n    def _serialize_data(self, data: Data) -> str:\n        \"\"\"Serialize Data object to JSON string.\"\"\"\n        # Convert data.data to JSON-serializable format\n        serializable_data = jsonable_encoder(data.data)\n        # Serialize with orjson, enabling pretty printing with indentation\n        json_bytes = orjson.dumps(serializable_data, option=orjson.OPT_INDENT_2)\n        # Convert bytes to string and wrap in Markdown code blocks\n        return \"```json\\n\" + json_bytes.decode(\"utf-8\") + \"\\n```\"\n\n    def _validate_input(self) -> None:\n        \"\"\"Validate the input data and raise ValueError if invalid.\"\"\"\n        if self.input_value is None:\n            msg = \"Input data cannot be None\"\n            raise ValueError(msg)\n        if isinstance(self.input_value, list) and not all(\n            isinstance(item, Message | Data | DataFrame | str) for item in self.input_value\n        ):\n            invalid_types = [\n                type(item).__name__\n                for item in self.input_value\n                if not isinstance(item, Message | Data | DataFrame | str)\n            ]\n            msg = f\"Expected Data or DataFrame or Message or str, got {invalid_types}\"\n            raise TypeError(msg)\n        if not isinstance(\n            self.input_value,\n            Message | Data | DataFrame | str | list | Generator | type(None),\n        ):\n            type_name = type(self.input_value).__name__\n            msg = f\"Expected Data or DataFrame or Message or str, Generator or None, got {type_name}\"\n            raise TypeError(msg)\n\n    def convert_to_string(self) -> str | Generator[Any, None, None]:\n        \"\"\"Convert input data to string with proper error handling.\"\"\"\n        self._validate_input()\n        if isinstance(self.input_value, list):\n            clean_data: bool = getattr(self, \"clean_data\", False)\n            return \"\\n\".join([safe_convert(item, clean_data=clean_data) for item in self.input_value])\n        if isinstance(self.input_value, Generator):\n            return self.input_value\n        return safe_convert(self.input_value)\n"
+              },
+              "context_id": {
+                "_input_type": "MessageTextInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Context ID",
+                "dynamic": false,
+                "info": "The context ID of the chat. Adds an extra layer to the local memory.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "context_id",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "data_template": {
+                "_input_type": "MessageTextInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Data Template",
+                "dynamic": false,
+                "info": "Template to convert Data to Text. If left empty, it will be dynamically set to the Data's text key.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "data_template",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": "{text}"
+              },
+              "input_value": {
+                "_input_type": "HandleInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "Inputs",
+                "dynamic": false,
+                "info": "Message to be passed as output.",
+                "input_types": [
+                  "Data",
+                  "JSON",
+                  "DataFrame",
+                  "Table",
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "input_value",
+                "override_skip": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "other",
+                "value": ""
+              },
+              "sender": {
+                "_input_type": "DropdownInput",
+                "advanced": true,
+                "api_editable": false,
+                "combobox": false,
+                "dialog_inputs": {},
+                "display_name": "Sender Type",
+                "dynamic": false,
+                "external_options": {},
+                "info": "Type of sender.",
+                "name": "sender",
+                "options": [
+                  "Machine",
+                  "User"
+                ],
+                "options_metadata": [],
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "toggle": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "str",
+                "value": "Machine"
+              },
+              "sender_name": {
+                "_input_type": "MessageTextInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Sender Name",
+                "dynamic": false,
+                "info": "Name of the sender.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "sender_name",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": "AI"
+              },
+              "session_id": {
+                "_input_type": "MessageTextInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Session ID",
+                "dynamic": false,
+                "info": "The session ID of the chat. If empty, the current session ID parameter will be used.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "session_id",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              },
+              "should_store_message": {
+                "_input_type": "BoolInput",
+                "advanced": true,
+                "api_editable": false,
+                "display_name": "Store Messages",
+                "dynamic": false,
+                "info": "Store the message in the history.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "should_store_message",
+                "override_skip": false,
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_metadata": true,
+                "track_in_telemetry": true,
+                "type": "bool",
+                "value": true
+              }
+            },
+            "tool_mode": false
+          },
+          "showNode": false,
+          "type": "ChatOutput"
+        },
+        "dragging": false,
+        "id": "ChatOutput-NHELz",
+        "measured": {
+          "height": 52,
+          "width": 192
+        },
+        "position": {
+          "x": 2010.7094191204942,
+          "y": 922.4374658575005
+        },
+        "selected": false,
+        "type": "genericNode"
+      }
+    ],
+    "viewport": {
+      "x": 486.13233002253406,
+      "y": 189.5947600100872,
+      "zoom": 0.3059267210318328
+    }
   },
-  "_readme": {
-    "purpose": "Starter Langflow export for the optional M5 post-class lab. Mirrors the AWSpec — ReAct pattern, single agent, confidence-based handoff.",
-    "tools_required": ["Langflow", "OpenAI API key (~$5 credit is enough for the lab)"],
-    "what_to_change": [
-      "Replace the 'RAG retriever (placeholder)' with a real vector store of the RocketShip corpus.",
-      "Replace the 'auto-post' and 'hand-off' SlackPost nodes with real Slack tool integrations or your own webhook.",
-      "Adjust the confidence threshold in the guardrail node based on your eval data (M6)."
-    ]
-  }
+  "description": "Generate, Innovate, Communicate.",
+  "endpoint_name": null,
+  "id": "5db4e37d-35dc-422f-af4c-7559e126b20e",
+  "is_component": false,
+  "last_tested_version": "1.12.0",
+  "locked": false,
+  "name": "Juno Agent",
+  "tags": []
 }
