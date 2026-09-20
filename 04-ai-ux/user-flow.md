@@ -50,3 +50,5 @@ If the Synthesizer agent cannot extract at least 3 verifiable, verbatim quotes f
 - [x] Every automated decision has a working kill switch.
 - [x] Fail-safe path is explicit. No dead end with a bad AI result.
 - [x] Hidden logic references M3 PRD specs (Top-K, latency target, knowledge base).
+
+<img width="2000" height="1160" alt="user-flow" src="https://github.com/user-attachments/assets/eeedde86-ba13-4d0f-ae44-614e7485b45b" />
